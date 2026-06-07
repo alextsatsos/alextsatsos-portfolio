@@ -119,7 +119,14 @@ async function _getAllBlocks(blockId: string): Promise<NotionBlock[]> {
 
     for (const block of response.results) {
       if ('type' in block) {
-        blocks.push(block as NotionBlock)
+        const nb = block as NotionBlock
+        blocks.push(nb)
+        // Table rows are nested children of the table block — fetch them inline
+        // so parseTable() receives them in the same flat section.blocks array.
+        if (nb.type === 'table') {
+          const rows = await _getAllBlocks(nb.id)
+          blocks.push(...rows)
+        }
       }
     }
 

@@ -1,0 +1,24 @@
+.quote {
+  border-left: 4px solid var(--pink);
+  background: rgba(255, 38, 135, 0.04);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px;
+  margin: 32px 0;
+}
+
+.text {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--ink-mid);
+}
+
+.attribution {
+  display: block;
+  font-family: var(--font-hand);
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  margin-top: 12px;
+  font-style: normal;
+}

@@ -1,0 +1,14 @@
+.tab {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: 0.8rem;
+  color: #fff;
+  background: var(--navy);
+  padding: 4px 14px 4px 10px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-left: -32px;
+}
+
+.pink {
+  background: var(--pink);
+}

@@ -1,66 +1,58 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { getHomePage } from '@/lib/notion'
+import { parseSections } from '@/lib/parseBlocks'
+import PageDivider from '@/components/PageDivider'
+import HeroSection from '@/components/home/HeroSection'
+import AboutSection from '@/components/home/AboutSection'
+import NotebookTab from '@/components/home/NotebookTab'
+import styles from './page.module.css'
 
-export default function Home() {
+export default async function Home() {
+  const blocks = await getHomePage()
+  const sections = parseSections(blocks)
+
+  function getSection(key: string) {
+    return sections.find((s) => s.key === key) ?? { key, blocks: [], index: -1 }
+  }
+
+  const heroSection = getSection('Hero')
+  const headshotSection = getSection('Headshot')
+  const pillsSection = getSection('Pills')
+  const aboutSection = getSection('About')
+  const pullQuoteSection = getSection('Pull Quote')
+  const skillsSection = getSection('Skills')
+  const contactSection = getSection('Contact')
+  const funFactsSection = getSection('Fun Facts')
+  const currentlySection = getSection('Currently')
+  const availabilitySection = getSection('Availability')
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main>
+      <HeroSection
+        heroSection={heroSection}
+        pillsSection={pillsSection}
+        headshotSection={headshotSection}
+      />
+
+      <PageDivider />
+
+      <section className={styles.workPlaceholder} id="work">
+        <div className="container">
+          <NotebookTab label="// case studies" />
+          <p className={styles.placeholder}>Case studies load here</p>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+      </section>
+
+      <PageDivider />
+
+      <AboutSection
+        aboutSection={aboutSection}
+        pullQuoteSection={pullQuoteSection}
+        skillsSection={skillsSection}
+        contactSection={contactSection}
+        funFactsSection={funFactsSection}
+        currentlySection={currentlySection}
+        availabilitySection={availabilitySection}
+      />
+    </main>
+  )
 }
