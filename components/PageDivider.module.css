@@ -1,0 +1,12 @@
+.divider {
+  border: none;
+  height: 1px;
+  opacity: 0.12;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--navy) 0px,
+    var(--navy) 4px,
+    transparent 4px,
+    transparent 12px
+  );
+}

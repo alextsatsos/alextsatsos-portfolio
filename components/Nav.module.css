@@ -1,0 +1,82 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(247, 246, 242, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1.5px solid rgba(19, 52, 100, 0.1);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  text-decoration: none;
+}
+
+.logoAt {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 20px;
+  color: var(--pink);
+  line-height: 1;
+}
+
+.logoName {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--navy);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.links a {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-mid);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.links a:hover {
+  color: var(--navy);
+}
+
+.links a.active {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.resumeBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--navy);
+  color: var(--navy) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+.resumeBtn:hover {
+  background: var(--navy);
+  color: var(--off-white) !important;
+}
