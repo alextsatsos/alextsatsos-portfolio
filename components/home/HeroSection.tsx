@@ -23,6 +23,8 @@ const PILL_COLORS: Record<string, string> = {
   lime: styles.pillLime,
   pink: styles.pillPink,
   navy: styles.pillNavy,
+  groove: styles.pillGroove,
+  lullaby: styles.pillLullaby,
 }
 
 export default function HeroSection({ heroSection, pillsSection, headshotSection }: Props) {
@@ -52,7 +54,7 @@ export default function HeroSection({ heroSection, pillsSection, headshotSection
       <div className={`container ${styles.inner}`}>
         <div className={styles.content}>
           {eyebrow && (
-            <p className={styles.eyebrow}>→ {eyebrow}</p>
+            <p className={styles.eyebrow}>{eyebrow.startsWith('→') ? eyebrow : `→ ${eyebrow}`}</p>
           )}
           <h1 className={styles.name}>
             Hi! I&apos;m Alex<span className={styles.dot}>.</span>

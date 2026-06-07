@@ -108,13 +108,13 @@
 }
 
 .pillCyan {
-  background: var(--cyan);
-  color: var(--navy);
+  background: #00FBEA;
+  color: #133464;
 }
 
 .pillLime {
-  background: var(--lime);
-  color: var(--navy);
+  background: #D8FF76;
+  color: #133464;
 }
 
 .pillPink {
@@ -125,6 +125,16 @@
 .pillNavy {
   background: var(--navy);
   color: #fff;
+}
+
+.pillGroove {
+  background: #F5BE41;
+  color: #133464;
+}
+
+.pillLullaby {
+  background: #C7ADF0;
+  color: #133464;
 }
 
 .ctas {

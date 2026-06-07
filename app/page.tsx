@@ -37,7 +37,7 @@ export default async function Home() {
 
       <section className={styles.workPlaceholder} id="work">
         <div className="container">
-          <NotebookTab label="// case studies" />
+          <NotebookTab label="// case studies" variant="pink" />
           <p className={styles.placeholder}>Case studies load here</p>
         </div>
       </section>

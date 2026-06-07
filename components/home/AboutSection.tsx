@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Section } from '@/types/notion'
 import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 import { parseTable, parseBullets } from '@/lib/parseBlocks'
@@ -30,6 +31,29 @@ const CHIP_COLORS: Record<string, string> = {
   lime: styles.chipLime,
 }
 
+type RichTextAnnotations = {
+  bold: boolean
+  italic: boolean
+  strikethrough: boolean
+  underline: boolean
+  code: boolean
+  color: string
+}
+
+function renderRichText(richText: RichTextItemResponse[]): React.ReactNode {
+  return richText.map((segment, i) => {
+    const text = segment.plain_text
+    const ann = segment.annotations as RichTextAnnotations
+    let node: React.ReactNode = text
+    if (ann.code) node = <code key={i}>{text}</code>
+    if (ann.bold && ann.italic) node = <strong key={i}><em>{text}</em></strong>
+    else if (ann.bold) node = <strong key={i}>{text}</strong>
+    else if (ann.italic) node = <em key={i}>{text}</em>
+    else node = <span key={i}>{text}</span>
+    return node
+  })
+}
+
 export default function AboutSection({
   aboutSection,
   pullQuoteSection,
@@ -39,15 +63,19 @@ export default function AboutSection({
   currentlySection,
   availabilitySection,
 }: Props) {
-  const paragraphs = aboutSection.blocks
+  const paragraphBlocks = aboutSection.blocks
     .filter((b) => b.type === 'paragraph')
     .map((b) => {
       const data = (b as Record<string, unknown>)['paragraph'] as
         | { rich_text: RichTextItemResponse[] }
         | undefined
-      return data?.rich_text.map((r) => r.plain_text).join('') ?? ''
+      return data?.rich_text ?? []
     })
-    .filter(Boolean)
+    .filter((rt) => {
+      const plain = rt.map((r) => r.plain_text).join('')
+      // Skip template instruction paragraphs left in the Notion page
+      return plain.trim().length > 0 && !plain.includes('Supports bold and italic')
+    })
 
   const skills = parseBullets(skillsSection.blocks).map((raw) => {
     const [color, ...rest] = raw.split('—')
@@ -71,8 +99,8 @@ export default function AboutSection({
         <div className={styles.main}>
           <NotebookTab label="// about me" variant="pink" />
           <div className={styles.prose}>
-            {paragraphs.map((text, i) => (
-              <p key={i} className={styles.paragraph}>{text}</p>
+            {paragraphBlocks.map((rt, i) => (
+              <p key={i} className={styles.paragraph}>{renderRichText(rt)}</p>
             ))}
           </div>
           <PullQuote blocks={pullQuoteSection.blocks} />

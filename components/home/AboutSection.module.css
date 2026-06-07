@@ -13,6 +13,7 @@
 .main {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0;
 }
 
@@ -44,10 +45,10 @@
   border-radius: 100px;
 }
 
-.chipGroove  { background: var(--groove);  color: var(--navy); }
-.chipLullaby { background: var(--lullaby); color: var(--navy); }
-.chipCyan    { background: var(--cyan);    color: var(--navy); }
-.chipLime    { background: var(--lime);    color: var(--navy); }
+.chipGroove  { background: #F5BE41; color: #133464; }
+.chipLullaby { background: #C7ADF0; color: #133464; }
+.chipCyan    { background: #00FBEA; color: #133464; }
+.chipLime    { background: #D8FF76; color: #133464; }
 
 /* ── Sidebar ────────────────────────────────── */
 .sidebar {
