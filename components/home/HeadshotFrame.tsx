@@ -9,7 +9,7 @@ export default function HeadshotFrame() {
       <div className={styles.frame}>
         <div className={styles.card}>
           <Image
-            src={cloudinaryUrl('portfolio/headshots/alex-tsatsos--headshot-hero.jpg')}
+            src={cloudinaryUrl('alex-tsatsos--headshot-hero')}
             alt="Alex Tsatsos — Senior UX & Product Designer"
             fill
             sizes="260px"
