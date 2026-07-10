@@ -1,0 +1,54 @@
+import type { CaseStudy } from '@/types/notion'
+import { TextWithKeyPhrase } from './LimeUnderline'
+import styles from './CaseStudyHero.module.css'
+
+interface Props {
+  meta: CaseStudy
+}
+
+function splitLastWord(title: string): [string, string] {
+  const i = title.lastIndexOf(' ')
+  if (i === -1) return ['', title]
+  return [title.slice(0, i + 1), title.slice(i + 1)]
+}
+
+export default function CaseStudyHero({ meta }: Props) {
+  const [lead, lastWord] = splitLastWord(meta.title)
+
+  const infoColumns = [
+    { label: 'Role', value: meta.role },
+    { label: 'Timeline', value: meta.timeline },
+    { label: 'Platform', value: meta.platform },
+    { label: 'Outcome', value: meta.heroOutcome },
+  ].filter((col) => col.value)
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.hero}>
+        {meta.category && <p className={styles.eyebrow}>{meta.category}</p>}
+        <h1 className={styles.title}>
+          {lead}
+          <span className={styles.pink}>{lastWord}</span>
+        </h1>
+        {meta.tagline && (
+          <p className={styles.subtitle}>
+            <TextWithKeyPhrase text={meta.tagline} keyPhrase={meta.keyPhrase} />
+          </p>
+        )}
+      </div>
+
+      <div className={styles.seam} />
+
+      {infoColumns.length > 0 && (
+        <div className={styles.infoBar}>
+          {infoColumns.map((col) => (
+            <div key={col.label} className={styles.infoColumn}>
+              <p className={styles.infoLabel}>{col.label}</p>
+              <p className={styles.infoValue}>{col.value}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

@@ -2,6 +2,8 @@ import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoin
 
 export type NotionBlock = BlockObjectResponse
 
+export type ImageType = 'annotated' | 'mockup' | 'screenshot' | 'gif' | ''
+
 export interface CaseStudy {
   pageId: string
   title: string
@@ -18,6 +20,8 @@ export interface CaseStudy {
   coverColor: string
   passwordProtected: boolean
   externalLink: string | null
+  keyPhrase: string
+  imageType: ImageType
 }
 
 export interface Section {

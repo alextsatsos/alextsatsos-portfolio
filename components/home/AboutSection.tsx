@@ -1,7 +1,7 @@
-import React from 'react'
 import type { Section } from '@/types/notion'
 import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 import { parseTable, parseBullets, parseSkillGroups } from '@/lib/parseBlocks'
+import { renderRichText } from '@/lib/renderRichText'
 import SkillCheck from '@/components/SkillCheck'
 import PullQuote from './PullQuote'
 import NotebookTab from './NotebookTab'
@@ -23,29 +23,6 @@ function tableToMap(rows: string[][]): Record<string, string> {
     if (row.length >= 2) map[row[0].trim()] = row[1].trim()
   }
   return map
-}
-
-type RichTextAnnotations = {
-  bold: boolean
-  italic: boolean
-  strikethrough: boolean
-  underline: boolean
-  code: boolean
-  color: string
-}
-
-function renderRichText(richText: RichTextItemResponse[]): React.ReactNode {
-  return richText.map((segment, i) => {
-    const text = segment.plain_text
-    const ann = segment.annotations as RichTextAnnotations
-    let node: React.ReactNode = text
-    if (ann.code) node = <code key={i}>{text}</code>
-    if (ann.bold && ann.italic) node = <strong key={i}><em>{text}</em></strong>
-    else if (ann.bold) node = <strong key={i}>{text}</strong>
-    else if (ann.italic) node = <em key={i}>{text}</em>
-    else node = <span key={i}>{text}</span>
-    return node
-  })
 }
 
 export default function AboutSection({

@@ -1,0 +1,20 @@
+.callout {
+  border-left: 4px solid var(--pink);
+  background: rgba(255, 38, 135, 0.04);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+}
+
+.label {
+  font-family: var(--font-hand);
+  font-size: 0.75rem;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink-mid);
+  line-height: 1.6;
+}

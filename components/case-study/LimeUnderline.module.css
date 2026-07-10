@@ -1,0 +1,13 @@
+.wrap {
+  position: relative;
+  display: inline;
+}
+
+.svg {
+  position: absolute;
+  bottom: -5px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: 10px;
+  overflow: visible;
+}

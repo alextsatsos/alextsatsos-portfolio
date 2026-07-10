@@ -68,6 +68,8 @@ function pageToCase(page: PageObjectResponse): CaseStudy {
     coverColor: text('CoverColor'),
     passwordProtected: checkbox('PasswordProtected'),
     externalLink: url('ExternalLink'),
+    keyPhrase: text('KeyPhrase'),
+    imageType: select('ImageType') as CaseStudy['imageType'],
   }
 }
 

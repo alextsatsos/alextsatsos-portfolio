@@ -1,0 +1,54 @@
+.annotated {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(19, 52, 100, 0.08), 0 1px 4px rgba(19, 52, 100, 0.05);
+  overflow: hidden;
+}
+
+.annotated img {
+  object-fit: cover;
+}
+
+.mockup {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+}
+
+.mockup img {
+  object-fit: contain;
+}
+
+.gif {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(19, 52, 100, 0.08), 0 1px 4px rgba(19, 52, 100, 0.05);
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.screenPairGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.screenPairGrid .annotated {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .screenPairGrid {
+    grid-template-columns: 1fr;
+  }
+}
