@@ -13,81 +13,51 @@
 
 .frame {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 260px;
+  height: 320px;
   flex-shrink: 0;
 }
 
-/* Pink offset border behind the image */
+/* Pink offset outline behind the card */
 .frame::before {
   content: '';
   position: absolute;
   inset: 0;
-  border: 2.5px solid var(--pink);
-  border-radius: var(--radius-md);
+  border: 2px solid var(--pink);
+  border-radius: 20px 20px 0 0;
   transform: translate(10px, 10px);
   z-index: 0;
 }
 
-/* Lime corner block bottom-right */
-.frame::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  right: -6px;
-  width: 60px;
-  height: 60px;
-  background: var(--lime);
-  border-radius: 0 0 var(--radius-md) 0;
-  z-index: 1;
+.card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background: var(--navy);
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
 }
 
 .photo {
-  position: relative;
-  z-index: 2;
-  border-radius: var(--radius-md);
   object-fit: cover;
-  width: 200px;
-  height: 200px;
 }
 
-.placeholder {
-  position: relative;
-  z-index: 2;
-  width: 200px;
-  height: 200px;
-  background: var(--navy);
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 16px;
-}
-
-.placeholderText {
-  font-family: var(--font-hand);
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* Cyan circular sticker badge */
-.badge {
+/* Lime block, bottom-right corner */
+.frame::after {
+  content: '';
   position: absolute;
-  bottom: -10px;
-  left: -12px;
+  bottom: -8px;
+  right: -8px;
   z-index: 3;
-  width: 56px;
-  height: 56px;
-  background: var(--cyan);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transform: rotate(-8deg);
-  font-family: var(--font-hand);
-  font-size: 0.6rem;
-  line-height: 1.2;
-  padding: 6px;
-  color: var(--navy);
+  width: 40px;
+  height: 40px;
+  background: var(--lime);
+}
+
+@media (max-width: 640px) {
+  .frame {
+    width: 220px;
+    height: 270px;
+  }
 }

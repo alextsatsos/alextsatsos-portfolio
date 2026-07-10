@@ -1,7 +1,7 @@
 import type { NotionBlock, Section } from '@/types/notion'
 import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
-function blockPlainText(block: NotionBlock): string {
+export function blockPlainText(block: NotionBlock): string {
   const b = block as Record<string, unknown>
   const typeData = b[block.type] as { rich_text?: RichTextItemResponse[] } | undefined
   return (typeData?.rich_text ?? []).map((r) => r.plain_text).join('')
@@ -32,14 +32,20 @@ export function parseTable(blocks: NotionBlock[]): string[][] {
   const tableBlock = blocks.find((b) => b.type === 'table')
   if (!tableBlock) return []
 
+  const table = (tableBlock as Record<string, unknown>)['table'] as
+    | { has_column_header?: boolean }
+    | undefined
+
   // Table rows are children of the table block — caller must pass children blocks
-  return blocks
+  const rows = blocks
     .filter((b) => b.type === 'table_row')
     .map((b) => {
       const row = b as Record<string, unknown>
       const rowData = row['table_row'] as { cells: RichTextItemResponse[][] } | undefined
       return (rowData?.cells ?? []).map((cell) => cell.map((r) => r.plain_text).join(''))
     })
+
+  return table?.has_column_header ? rows.slice(1) : rows
 }
 
 export function parseBullets(blocks: NotionBlock[]): string[] {
@@ -52,4 +58,26 @@ export function parseNumberedList(blocks: NotionBlock[]): string[] {
   return blocks
     .filter((b) => b.type === 'numbered_list_item')
     .map(blockPlainText)
+}
+
+export interface SkillGroup {
+  heading: string
+  items: string[]
+}
+
+export function parseSkillGroups(blocks: NotionBlock[]): SkillGroup[] {
+  const groups: SkillGroup[] = []
+  let current: SkillGroup | null = null
+
+  for (const block of blocks) {
+    if (block.type === 'heading_3') {
+      if (current) groups.push(current)
+      current = { heading: blockPlainText(block), items: [] }
+    } else if (block.type === 'bulleted_list_item' && current) {
+      current.items.push(blockPlainText(block))
+    }
+  }
+
+  if (current) groups.push(current)
+  return groups
 }

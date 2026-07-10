@@ -1,7 +1,8 @@
 import React from 'react'
 import type { Section } from '@/types/notion'
 import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
-import { parseTable, parseBullets } from '@/lib/parseBlocks'
+import { parseTable, parseBullets, parseSkillGroups } from '@/lib/parseBlocks'
+import SkillCheck from '@/components/SkillCheck'
 import PullQuote from './PullQuote'
 import NotebookTab from './NotebookTab'
 import styles from './AboutSection.module.css'
@@ -22,13 +23,6 @@ function tableToMap(rows: string[][]): Record<string, string> {
     if (row.length >= 2) map[row[0].trim()] = row[1].trim()
   }
   return map
-}
-
-const CHIP_COLORS: Record<string, string> = {
-  groove: styles.chipGroove,
-  lullaby: styles.chipLullaby,
-  cyan: styles.chipCyan,
-  lime: styles.chipLime,
 }
 
 type RichTextAnnotations = {
@@ -77,13 +71,9 @@ export default function AboutSection({
       return plain.trim().length > 0 && !plain.includes('Supports bold and italic')
     })
 
-  const skills = parseBullets(skillsSection.blocks).map((raw) => {
-    const [color, ...rest] = raw.split('—')
-    return { color: color.trim(), label: rest.join('—').trim() }
-  })
+  const skillGroups = parseSkillGroups(skillsSection.blocks)
 
   const contactRows = parseTable(contactSection.blocks)
-  const contact = tableToMap(contactRows)
 
   const funFacts = parseBullets(funFactsSection.blocks)
   const currently = parseBullets(currentlySection.blocks)
@@ -104,15 +94,17 @@ export default function AboutSection({
             ))}
           </div>
           <PullQuote blocks={pullQuoteSection.blocks} />
-          {skills.length > 0 && (
-            <div className={styles.chips}>
-              {skills.map(({ color, label }, i) => (
-                <span
-                  key={i}
-                  className={`${styles.chip} ${CHIP_COLORS[color] ?? styles.chipLime}`}
-                >
-                  {label}
-                </span>
+          {skillGroups.length > 0 && (
+            <div className={styles.skillGroups}>
+              {skillGroups.map((group, i) => (
+                <div key={i} className={styles.skillGroup}>
+                  <h3 className={styles.skillSubhead}>{group.heading}</h3>
+                  <div className={styles.skillList}>
+                    {group.items.map((label, j) => (
+                      <SkillCheck key={j} label={label} />
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           )}
@@ -120,9 +112,12 @@ export default function AboutSection({
 
         <aside className={styles.sidebar}>
           {isAvailable && (
-            <div className={styles.availBadge}>
-              <span className={styles.pulse} />
-              {badgeText}
+            <div className={styles.card}>
+              <div className={styles.tape} />
+              <div className={styles.availBadge}>
+                <span className={styles.pulse} />
+                {badgeText}
+              </div>
             </div>
           )}
 

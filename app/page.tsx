@@ -15,7 +15,6 @@ export default async function Home() {
   }
 
   const heroSection = getSection('Hero')
-  const headshotSection = getSection('Headshot')
   const pillsSection = getSection('Pills')
   const aboutSection = getSection('About')
   const pullQuoteSection = getSection('Pull Quote')
@@ -30,7 +29,6 @@ export default async function Home() {
       <HeroSection
         heroSection={heroSection}
         pillsSection={pillsSection}
-        headshotSection={headshotSection}
       />
 
       <PageDivider />

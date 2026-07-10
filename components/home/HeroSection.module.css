@@ -67,74 +67,18 @@
 }
 
 .highlight {
-  position: relative;
-  display: inline-block;
-  z-index: 0;
-}
-
-.highlight::after {
-  content: '';
-  position: absolute;
-  left: -2px;
-  right: -2px;
-  bottom: 1px;
-  height: 8px;
   background: var(--lime);
-  z-index: -1;
+  padding: 0 2px;
   border-radius: 2px;
+  color: var(--navy);
 }
 
 .tagline {
+  font-family: var(--font-body);
   font-size: 1rem;
   color: var(--ink-light);
   max-width: 440px;
   line-height: 1.6;
-}
-
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.pill {
-  display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 500;
-  padding: 4px 12px;
-  border-radius: 100px;
-  line-height: 1.4;
-}
-
-.pillCyan {
-  background: #00FBEA;
-  color: #133464;
-}
-
-.pillLime {
-  background: #D8FF76;
-  color: #133464;
-}
-
-.pillPink {
-  background: var(--pink);
-  color: #fff;
-}
-
-.pillNavy {
-  background: var(--navy);
-  color: #fff;
-}
-
-.pillGroove {
-  background: #F5BE41;
-  color: #133464;
-}
-
-.pillLullaby {
-  background: #C7ADF0;
-  color: #133464;
 }
 
 .ctas {
@@ -167,13 +111,21 @@
   font-size: 0.95rem;
   padding: 12px 28px;
   border-radius: var(--radius-sm);
-  border: 2px solid var(--navy);
+  border: 1.5px solid var(--navy);
   transition: border-color 0.18s ease, color 0.18s ease;
 }
 
 .ctaGhost:hover {
   border-color: var(--pink);
   color: var(--pink);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 12px;
+  column-gap: 22px;
+  margin-top: 8px;
 }
 
 @media (max-width: 640px) {

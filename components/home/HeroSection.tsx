@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import type { Section } from '@/types/notion'
 import { parseTable, parseBullets } from '@/lib/parseBlocks'
+import SkillCheck from '@/components/SkillCheck'
 import HeadshotFrame from './HeadshotFrame'
 import styles from './HeroSection.module.css'
 
 interface Props {
   heroSection: Section
   pillsSection: Section
-  headshotSection: Section
 }
 
 function tableToMap(rows: string[][]): Record<string, string> {
@@ -18,31 +18,19 @@ function tableToMap(rows: string[][]): Record<string, string> {
   return map
 }
 
-const PILL_COLORS: Record<string, string> = {
-  cyan: styles.pillCyan,
-  lime: styles.pillLime,
-  pink: styles.pillPink,
-  navy: styles.pillNavy,
-  groove: styles.pillGroove,
-  lullaby: styles.pillLullaby,
-}
-
-export default function HeroSection({ heroSection, pillsSection, headshotSection }: Props) {
+export default function HeroSection({ heroSection, pillsSection }: Props) {
   const rows = parseTable(heroSection.blocks)
   const hero = tableToMap(rows)
 
-  const pills = parseBullets(pillsSection.blocks).map((raw) => {
-    const [color, ...rest] = raw.split('—')
-    return { color: color.trim(), label: rest.join('—').trim() }
-  })
+  const skills = parseBullets(pillsSection.blocks)
 
   const eyebrow = hero['Eyebrow annotation'] ?? ''
   const headline = hero['Headline'] ?? ''
   const highlightWord = hero['Highlight word'] ?? ''
   const tagline = hero['Tagline'] ?? ''
-  const ctaPrimaryLabel = hero['CTA primary label'] ?? 'View work'
+  const ctaPrimaryLabel = hero['CTA primary label'] ?? 'See My Work'
   const ctaPrimaryHref = hero['CTA primary href'] ?? '#work'
-  const ctaSecondaryLabel = hero['CTA secondary label'] ?? 'About me'
+  const ctaSecondaryLabel = hero['CTA secondary label'] ?? 'About Me'
   const ctaSecondaryHref = hero['CTA secondary href'] ?? '#about'
 
   const headlineParts = highlightWord
@@ -69,18 +57,6 @@ export default function HeroSection({ heroSection, pillsSection, headshotSection
             )}
           </p>
           <p className={styles.tagline}>{tagline}</p>
-          {pills.length > 0 && (
-            <div className={styles.pills}>
-              {pills.map(({ color, label }, i) => (
-                <span
-                  key={i}
-                  className={`${styles.pill} ${PILL_COLORS[color] ?? styles.pillNavy}`}
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-          )}
           <div className={styles.ctas}>
             <Link href={ctaPrimaryHref} className={styles.ctaPrimary}>
               {ctaPrimaryLabel}
@@ -89,8 +65,15 @@ export default function HeroSection({ heroSection, pillsSection, headshotSection
               {ctaSecondaryLabel}
             </Link>
           </div>
+          {skills.length > 0 && (
+            <div className={styles.skills}>
+              {skills.map((label, i) => (
+                <SkillCheck key={i} label={label} />
+              ))}
+            </div>
+          )}
         </div>
-        <HeadshotFrame blocks={headshotSection.blocks} />
+        <HeadshotFrame />
       </div>
     </section>
   )
