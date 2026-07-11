@@ -64,7 +64,7 @@ export default function AboutSection({
     <section className={styles.section} id="about">
       <div className={`container ${styles.inner}`}>
         <div className={styles.main}>
-          <NotebookTab label="// about me" variant="pink" />
+          <NotebookTab label="// about me" />
           <div className={styles.prose}>
             {paragraphBlocks.map((rt, i) => (
               <p key={i} className={styles.paragraph}>{renderRichText(rt)}</p>

@@ -49,7 +49,7 @@
   font-family: var(--font-hand);
   font-weight: 400;
   font-size: 0.95rem;
-  color: var(--pink);
+  color: var(--navy);
   text-transform: lowercase;
 }
 
@@ -114,7 +114,7 @@
 .cardTitle {
   font-family: var(--font-hand);
   font-size: 0.85rem;
-  color: var(--pink);
+  color: var(--navy);
   margin-bottom: 12px;
   text-transform: lowercase;
 }
