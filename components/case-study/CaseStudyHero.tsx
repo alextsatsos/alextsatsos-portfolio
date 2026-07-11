@@ -25,7 +25,9 @@ export default function CaseStudyHero({ meta }: Props) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.hero}>
-        {meta.category && <p className={styles.eyebrow}>{meta.category}</p>}
+        {(meta.eyebrow || meta.category) && (
+          <p className={styles.eyebrow}>{meta.eyebrow || meta.category}</p>
+        )}
         <h1 className={styles.title}>
           {lead}
           <span className={styles.pink}>{lastWord}</span>

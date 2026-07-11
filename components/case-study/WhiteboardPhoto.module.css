@@ -1,0 +1,42 @@
+.card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(19, 52, 100, 0.08), 0 1px 4px rgba(19, 52, 100, 0.05);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.tape {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 90px;
+  height: 28px;
+  background: #E8DFC8;
+  opacity: 0.85;
+  transform: translateX(-50%) rotate(-2deg);
+  box-shadow: 0 1px 3px rgba(19, 52, 100, 0.15);
+}
+
+.inner {
+  background: var(--off-white);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  margin-top: 12px;
+  text-align: center;
+}

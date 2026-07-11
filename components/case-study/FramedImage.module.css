@@ -1,0 +1,20 @@
+.card {
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(19, 52, 100, 0.08), 0 1px 4px rgba(19, 52, 100, 0.05);
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  margin-top: 12px;
+  text-align: center;
+}

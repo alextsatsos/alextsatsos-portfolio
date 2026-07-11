@@ -59,6 +59,7 @@ function pageToCase(page: PageObjectResponse): CaseStudy {
     published: checkbox('Published'),
     order: number('Order'),
     category: select('Category'),
+    eyebrow: text('Eyebrow'),
     tagline: text('Tagline'),
     role: text('Role'),
     timeline: text('Timeline'),
