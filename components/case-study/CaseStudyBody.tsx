@@ -17,6 +17,7 @@ import styles from './CaseStudyBody.module.css'
 interface Props {
   blocks: NotionBlock[]
   skills: string[]
+  caseStudyTitle: string
   prototypeFallbackUrl?: string | null
   keyPhrase?: string | null
   imageType?: ImageType
@@ -271,18 +272,29 @@ function renderPullQuote(section: Section, keyPhrase?: string | null) {
   return <CaseStudyPullQuote text={blockPlainText(quoteBlock)} keyPhrase={keyPhrase} />
 }
 
-function renderPrototype(section: Section, fallbackUrl?: string | null) {
+function renderPrototype(section: Section, fallbackUrl?: string | null, caseStudyTitle?: string) {
   const embedBlock = section.blocks.find((b) => b.type === 'embed')
   const introBlocks = section.blocks.filter((b) => b.type !== 'embed')
   return (
     <>
       {renderBlocks(introBlocks)}
-      <PrototypeEmbed embedUrl={embedBlock ? embedUrl(embedBlock) : null} fallbackUrl={fallbackUrl} />
+      <PrototypeEmbed
+        embedUrl={embedBlock ? embedUrl(embedBlock) : null}
+        fallbackUrl={fallbackUrl}
+        title={caseStudyTitle ? `Interactive prototype of the ${caseStudyTitle} flow` : undefined}
+      />
     </>
   )
 }
 
-export default function CaseStudyBody({ blocks, skills, prototypeFallbackUrl, keyPhrase, imageType }: Props) {
+export default function CaseStudyBody({
+  blocks,
+  skills,
+  caseStudyTitle,
+  prototypeFallbackUrl,
+  keyPhrase,
+  imageType,
+}: Props) {
   const sections = parseSections(blocks).filter((s) => s.key)
 
   const tocItems: TocItem[] = sections.map((s) => ({ id: slugify(s.key), label: s.key }))
@@ -319,7 +331,7 @@ export default function CaseStudyBody({ blocks, skills, prototypeFallbackUrl, ke
                   : key === 'pull quote'
                     ? renderPullQuote(section, keyPhrase)
                     : isPrototypeSection(section)
-                      ? renderPrototype(section, prototypeFallbackUrl)
+                      ? renderPrototype(section, prototypeFallbackUrl, caseStudyTitle)
                       : renderBlocks(section.blocks, imageType)}
               </section>
             )

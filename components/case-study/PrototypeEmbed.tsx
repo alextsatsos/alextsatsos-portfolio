@@ -4,9 +4,10 @@ interface Props {
   embedUrl: string | null
   fallbackUrl?: string | null
   label?: string
+  title?: string
 }
 
-export default function PrototypeEmbed({ embedUrl, fallbackUrl, label = 'Prototype' }: Props) {
+export default function PrototypeEmbed({ embedUrl, fallbackUrl, label = 'Prototype', title }: Props) {
   return (
     <div className={styles.frame}>
       <div className={styles.bar}>
@@ -19,7 +20,7 @@ export default function PrototypeEmbed({ embedUrl, fallbackUrl, label = 'Prototy
       </div>
 
       {embedUrl ? (
-        <iframe src={embedUrl} className={styles.iframe} allowFullScreen />
+        <iframe src={embedUrl} title={title || label} className={styles.iframe} allowFullScreen />
       ) : (
         fallbackUrl && (
           <div className={styles.fallback}>

@@ -15,7 +15,7 @@ export default function PrevNextNav({ prev, next }: Props) {
   if (!prev && !next) return null
 
   return (
-    <nav className={styles.nav}>
+    <nav className={styles.nav} aria-label="Case study navigation">
       {prev && (
         <Link href={`/case-studies/${prev.slug}`} className={styles.link}>
           <span className={styles.direction}>← Previous</span>

@@ -79,7 +79,11 @@ export default function PasswordGate({ protected: isProtected, children }: Passw
         </p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
+          <label htmlFor="case-study-password" className={styles.srOnly}>
+            Password
+          </label>
           <input
+            id="case-study-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

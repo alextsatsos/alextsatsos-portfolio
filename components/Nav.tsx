@@ -8,7 +8,7 @@ export default function Nav() {
   const pathname = usePathname();
 
   return (
-    <nav className={styles.nav}>
+    <nav className={styles.nav} aria-label="Main navigation">
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.logo}>
           <span className={styles.logoAt}>@</span>
