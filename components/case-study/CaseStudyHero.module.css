@@ -68,7 +68,7 @@
 .infoLabel {
   font-family: var(--font-hand);
   font-size: 0.7rem;
-  color: rgba(19, 52, 100, 0.5);
+  color: rgba(19, 52, 100, 0.7);
 }
 
 .infoValue {
