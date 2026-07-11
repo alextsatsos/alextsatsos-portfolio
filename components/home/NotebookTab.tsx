@@ -7,8 +7,8 @@ interface Props {
 
 export default function NotebookTab({ label, variant = 'navy' }: Props) {
   return (
-    <span className={`${styles.tab} ${variant === 'pink' ? styles.pink : ''}`}>
+    <h2 className={`${styles.tab} ${variant === 'pink' ? styles.pink : ''}`}>
       {label}
-    </span>
+    </h2>
   )
 }
