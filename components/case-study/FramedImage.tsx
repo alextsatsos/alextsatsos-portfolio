@@ -9,7 +9,7 @@ interface Props {
 
 export default function FramedImage({ src, alt, caption }: Props) {
   return (
-    <figure className={styles.card}>
+    <figure className={styles.wrap}>
       <Image src={src} alt={alt} width={1800} height={836} className={styles.photo} />
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>

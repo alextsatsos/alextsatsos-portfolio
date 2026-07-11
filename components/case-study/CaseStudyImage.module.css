@@ -3,7 +3,6 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 16px rgba(19, 52, 100, 0.08), 0 1px 4px rgba(19, 52, 100, 0.05);
   overflow: hidden;
 }
 
@@ -26,7 +25,6 @@
   height: auto;
   display: block;
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 16px rgba(19, 52, 100, 0.08), 0 1px 4px rgba(19, 52, 100, 0.05);
 }
 
 .caption {

@@ -9,11 +9,9 @@ interface Props {
 
 export default function WhiteboardPhoto({ src, alt, caption }: Props) {
   return (
-    <figure className={styles.card}>
+    <figure className={styles.wrap}>
       <span className={styles.tape} aria-hidden="true" />
-      <div className={styles.inner}>
-        <Image src={src} alt={alt} width={1200} height={794} className={styles.photo} />
-      </div>
+      <Image src={src} alt={alt} width={1200} height={794} className={styles.photo} />
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>
   )
