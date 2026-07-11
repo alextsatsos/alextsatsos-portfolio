@@ -69,4 +69,8 @@
   .twoColZone {
     grid-template-columns: 1fr;
   }
+
+  .main {
+    order: 2;
+  }
 }
