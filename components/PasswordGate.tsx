@@ -71,7 +71,7 @@ export default function PasswordGate({ protected: isProtected, children }: Passw
           </svg>
         </div>
 
-        <h2 className={styles.heading}>This case study is password protected.</h2>
+        <h1 className={styles.heading}>This case study is password protected.</h1>
 
         <p className={styles.subtext}>
           Enter the password to view. Don&apos;t have it? Reach out and I&apos;ll share it
