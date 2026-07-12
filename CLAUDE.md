@@ -4,11 +4,11 @@
 
 Paste this at the start of any new claude.ai chat to get fully up to speed.
 
-## Recent Changes (Session 4.5 — July 11, 2026)
+## Recent Changes (Session 5 — July 12, 2026)
 
-- **Two-column sidebar zone removed entirely from the case study template.** No more TOC ("On this page") or standalone Skills card — `CaseStudySidebar.tsx`, `TableOfContents.tsx`, and their CSS are deleted, along with the sticky positioning and mobile reordering that used to apply to them. Overview/Background and every other section now render full-width from the very first paragraph — there is no narrower column anywhere on the page.
-- **Skills moved into the hero's white info bar.** Below the existing Role/Timeline (or Company)/Platform/Outcome row, a hairline divider separates a new "Skills applied" row — small muted label, then the case study's skills rendered via `SkillCheck`, wrapping horizontally in a flex row. Applied to both `CaseStudyHero.tsx`/`.module.css` and confirmed on both existing case studies (Split Tender Refunds, Logic Builder). This supersedes the old sidebar Skills card described in earlier sessions.
-- **Session 3 carryover, still current:** full-width zone has no max-width cap (matches hero edges, 1016px at 1280 viewport); whiteboard sketch photo keeps its own 620px cap; image card frame removed across all case studies (images float on the dot-grid bg, tape strip anchored to the image); WCAG audit passed all 5 groups via axe-core, zero violations on homepage/unlocked case study/locked password gate.
+- **Enterprise Delivery Tracker (case study 03) complete and shipped.** Uses the new cream tape-strip pull quote (see Design System), the stepper GIF framed in browser chrome, and the annotated three-panel image in the hi-fi section.
+- **Pull quote redesigned to the cream/paper tape-strip card** (replaces the old inline navy treatment — see Design System → Pull quote card). Navy is now reserved for structural elements only: hero, reflection, footer.
+- **Carryover, still current (Sessions 3–4.5):** sidebar/TOC removed — every section renders full-width with no max-width cap (matches hero edges, 1016px at 1280 viewport); Skills live in the hero info bar's "Skills applied" row via `SkillCheck`; whiteboard sketch photo keeps its own 620px cap; image card frame removed (images float on the dot-grid bg, tape strip anchored to the image); WCAG audit passed all 5 groups via axe-core, zero violations.
 
 ## Who I Am
 
@@ -29,7 +29,7 @@ Active palette (navy + pink + lime only):
 
 - **Navy `#133464`** — dominant everywhere
 - **Pink `#FF2687`** — large text/fills/lines only. WCAG rule enforced in code: only used at 18px+ regular or 14px+ bold, or as fills/lines — never small body text or subheads under that size. If a design calls for pink at a smaller size, swap to navy instead.
-- **Lime `#D8FF76`** — angled SVG underline on key phrases only
+- **Lime `#D8FF76`** — key-phrase accent. Angled SVG underline on navy/dark backgrounds; solid highlight fill behind the text on light/cream backgrounds (the underline reads too faint on light, per the light-background rule)
 - Cyan, groove (gold), lullaby (lavender) — REMOVED from all pages
 
 Lime SVG underline device:
@@ -55,6 +55,10 @@ Used on key phrases only, never whole sentences.
 **SkillCheck component**: 18px navy-outlined box (1.5px solid, 4px radius), inline SVG pink check path `d="M5 12l4 4 10-11"`, navy Hanken Grotesk 500 label, 9px gap. Box is `aria-hidden`. NOT a checkbox input. Used in the case study hero info bar's "Skills applied" row (wraps horizontally) — no longer lives in a sidebar card.
 
 **Tape-strip card style** (still used by `AboutSection` and `WhiteboardPhoto`, no longer by case study sidebars since those are gone): white bg, NO border, `box-shadow: 0 4px 16px rgba(19,52,100,0.08), 0 1px 4px rgba(19,52,100,0.05)`. Tape strip: `#E8DFC8`, position absolute, top -9px, centered, 44px x 16px.
+
+**Pull quote card (in-body, case studies)** — LOCKED, replaces the old inline navy treatment: cream/paper bg `#FAFAF7`, slight rotation (tape-strip card look), `#E8DFC8` tape strip anchored on top. Quote text in navy with both `"` marks pink and inline; lime **highlight fill** (not underline) behind the key phrase, since the card sits on a light background. Attribution is a witty one-line credit in Architects Daughter (full navy per WCAG), not a flat "Users said." Navy is reserved for structural elements only (hero, reflection, footer) — do not use a navy pull-quote block.
+
+**Callout component** — bold navy heading inside a tinted/bordered box, matching Split Tender's "the core problem" reference. Re-verify it renders correctly (heading position intact) after ANY layout change that touches it — a prior stacking change silently broke the heading positioning.
 
 **Case study cards (homepage)**: Option B style — pink left border (4px), white bg, shadow, border-radius 20px. Three columns: number+client left / quote center / tags+arrow right. Password protected tag: background `rgba(255,38,135,0.08)`, color `var(--pink)`
 
@@ -126,7 +130,9 @@ Key assets:
 - Admin area: 4 concept screens (concept1-default, concept1-hover, concept2-collapsed, concept2-expanded)
 - QA dashboard: original screenshot, mobile-ab comparison, desktop-main, desktop-slideout, mobile-table, mobile-detail
 
-Note: since the card frame around images was removed (see Recent Changes), double-check any image with a baked-in cream `#FAFAF7` background still reads intentionally against the dot-grid page background rather than looking like a stray rectangle. Re-export with a transparent background if it looks off.
+Note: with the image card frame gone, any image with a baked-in cream `#FAFAF7` background must still read intentionally against the dot-grid page bg, not like a stray rectangle — re-export transparent if it looks off.
+
+**Cloudinary before committing (Session 5):** always confirm a new image/GIF is uploaded to Cloudinary and referenced by its Cloudinary URL before committing — a local filesystem path reference passes locally but 404s once deployed to Vercel. For assets near or over the 3MB guideline, use the `f_auto,q_auto` transform in the URL (`/upload/f_auto,q_auto/...`) so supporting browsers get an optimized format (e.g. animated WebP) and others fall back to the original.
 
 ## Password Gate — LOCKED
 
@@ -165,29 +171,28 @@ Skill groups:
 
 Note: homepage heading hierarchy fixed to include `<h2>` for major section headings — previously jumped from the single `<h1>` straight to `<h3>` for card titles and skill subheads.
 
-## Build Status (as of July 11, 2026)
+## Build Status (as of July 12, 2026)
 
 - ✅ Session 0 — Homepage hero + about (pushed)
 - ✅ Session 1 — PasswordGate component (pushed, merged feat/password-gate → main)
 - ✅ Session 2 — Case study page template (pushed, commit a6f5d2b)
 - ✅ Session 3 — Split Tender Refunds (layout width fix, image frame removal, WCAG fixes)
 - ✅ Session 4 — Logic Builder
-- ✅ Session 4.5 — Removed sidebar/TOC, moved Skills into hero info bar; applied to both Split Tender Refunds and Logic Builder
-- 🔄 Session 5 — Enterprise Delivery Tracker (next)
-- ⬜ Sessions 6–9 — Not started
+- ✅ Session 4.5 — Removed sidebar/TOC, moved Skills into hero info bar
+- ✅ Session 5 — Enterprise Delivery Tracker (shipped; cream pull quote, stepper GIF, annotated three-panel)
+- 🔄 Session 6 — Install Mods: UX Research (next). First case study to embed a **Google Slides** deck (not Figma) for its prototype/research artifact — will likely need new template handling distinct from the Figma iframe pattern used elsewhere (different embed URL, aspect ratio, and `title` attribute).
+- ⬜ Sessions 7–9 — Not started
 
 ## Key Decisions Log
 
 - Hero card: text only, no image slot (Option A)
 - Case study cards: Option B (pink left border)
-- Case study pages: no sidebar/TOC, all sections full-width; Skills lives in hero info bar (updated Session 4.5 — previously a two-column zone with a sidebar)
-- Full-width zone: no max-width cap, matches hero edges exactly (updated Session 3 — previously 760px)
+- Case study pages: no sidebar/TOC, all sections full-width with no max-width cap (matches hero edges); Skills lives in hero info bar (Session 3 + 4.5 — previously a two-column zone capped at 760px)
 - Case study images: no card frame, tape strip stays, floats on dot-grid page bg (updated Session 3)
-- Pull quote (Delivery Tracker only): both `"` marks pink, inline with text, lime underline on "essentially disappeared"
-- Reflection bullets (Admin Area): lime → arrows, not standard list bullets
-- Admin Area reflection: NO headline, Hurricane Florence context included
+- Pull quote (in-body): cream tape-strip card, pink inline `"` marks, lime highlight fill on key phrase, witty Architects Daughter attribution (Session 5 — replaces old inline navy treatment; navy now structural-only)
+- Admin Area reflection: NO headline, Hurricane Florence context included, lime → arrows (not standard list bullets)
 - QA Dashboard: mobile screens prioritized, 4-card A/B grid, two prototype embeds side by side
-- Delivery Tracker: GIF before "design and engineering aligned" callout, annotated three-panel image in hi-fi section
+- Delivery Tracker: stepper GIF (browser-chrome framed) before "design and engineering aligned" callout; annotated three-panel image in hi-fi section
 
 ## Voice Rules
 
