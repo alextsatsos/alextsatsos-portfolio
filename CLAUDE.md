@@ -4,9 +4,9 @@
 
 Paste this at the start of any new claude.ai chat to get fully up to speed.
 
-## Recent Changes (Session 6 in progress — July 12, 2026)
+## Recent Changes (Session 6 — July 12, 2026)
 
-- **Session 6 (Install Mods: UX Research) started.** Info-bar skills locked (see Six Case Studies). Its research artifact is a **Google Slides** embed, not Figma — first case study needing this; confirm embed + accessible-title handling before assuming the Figma iframe component can be reused as-is.
+- **Session 6 (Install Mods: UX Research) shipped.** First case study with a **Google Slides** research embed (not Figma). `PrototypeEmbed` was generalized with an optional `aspectRatio` prop: Slides are auto-detected by URL (`docs.google.com/presentation`) and render at native ~16:9 (`960 / 569`) inside the same browser-chrome frame, with a "Research readout" label and a data-driven iframe `title` — instead of the Figma-tuned fixed height. The page's Notion headings had to be promoted heading-1 → heading-2 to match the section parser; the ✦ "finding that surprised me most" became a callout; Notion forbids commas in multi-select options, so the skill reads `Quantitative Usability Metrics (UMUX & SEQ)`. No pull quote (none in Notion). Note: `unstable_cache` persists in `.next` in dev — clear `.next` (not just restart) to see fresh Notion edits locally.
 - **Session 5 (Enterprise Delivery Tracker) shipped.** New cream tape-strip pull quote (replaces the inline navy treatment; navy now structural-only — hero/reflection/footer), stepper GIF framed in browser chrome, annotated three-panel image, interactive Figma prototype. The callout heading silently broke during a stacked-layout change and was fixed — re-verify callouts after any layout change touching them (see Design System).
 - **Carryover (Sessions 3–4.5), still current:** sidebar/TOC removed, all sections full-width with no max-width cap (1016px at 1280 viewport); Skills in the hero info bar via `SkillCheck`; whiteboard photo keeps its 620px cap; image card frame removed (images float on the dot-grid bg); footer WCAG fixed (cyan `#00FBEA` handNote → off-white on the navy footer, copy unchanged); axe-core clean across all 5 groups.
 
@@ -185,7 +185,7 @@ Note: homepage heading hierarchy fixed to include `<h2>` for major section headi
 - ✅ Session 4 — Logic Builder
 - ✅ Session 4.5 — Removed sidebar/TOC, moved Skills into hero info bar
 - ✅ Session 5 — Enterprise Delivery Tracker (shipped; cream pull quote, stepper GIF, annotated three-panel)
-- 🔄 Session 6 — Install Mods: UX Research (in progress). Skills locked. Embeds a **Google Slides** deck (not Figma) for its research artifact — first case study needing this; likely new template handling vs. the Figma iframe pattern (different embed URL, aspect ratio, `title`).
+- ✅ Session 6 — Install Mods: UX Research (shipped; Google Slides research embed via generalized `PrototypeEmbed`, ✦ callout, heading-level fix; axe 0 violations, merged to main)
 - ⬜ Sessions 7–9 — Not started
 
 ## Key Decisions Log (per-case-study, beyond the locked specs above)
