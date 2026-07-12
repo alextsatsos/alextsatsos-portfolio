@@ -17,7 +17,6 @@ interface Props {
   blocks: NotionBlock[]
   caseStudyTitle: string
   prototypeFallbackUrl?: string | null
-  keyPhrase?: string | null
   imageType?: ImageType
 }
 
@@ -310,10 +309,16 @@ function renderReflection(section: Section) {
   )
 }
 
-function renderPullQuote(section: Section, keyPhrase?: string | null) {
+function renderPullQuote(section: Section) {
   const quoteBlock = section.blocks.find((b) => b.type === 'quote')
   if (!quoteBlock) return null
-  return <CaseStudyPullQuote text={blockPlainText(quoteBlock)} keyPhrase={keyPhrase} />
+  // The phrase to lime-underline is authored inline via the same underline
+  // annotation used elsewhere for lime emphasis, rather than reusing the
+  // hero's unrelated page-level KeyPhrase.
+  const emphasis = blockRichText(quoteBlock).find(
+    (r) => (r.annotations as { underline?: boolean }).underline
+  )
+  return <CaseStudyPullQuote text={blockPlainText(quoteBlock)} keyPhrase={emphasis?.plain_text} />
 }
 
 function renderPrototype(section: Section, fallbackUrl?: string | null, caseStudyTitle?: string) {
@@ -335,7 +340,6 @@ export default function CaseStudyBody({
   blocks,
   caseStudyTitle,
   prototypeFallbackUrl,
-  keyPhrase,
   imageType,
 }: Props) {
   const sections = parseSections(blocks).filter((s) => s.key)
@@ -368,7 +372,7 @@ export default function CaseStudyBody({
                 {key === 'reflection'
                   ? renderReflection(section)
                   : key === 'pull quote'
-                    ? renderPullQuote(section, keyPhrase)
+                    ? renderPullQuote(section)
                     : isPrototypeSection(section)
                       ? renderPrototype(section, prototypeFallbackUrl, caseStudyTitle)
                       : renderBlocks(section.blocks, imageType)}
