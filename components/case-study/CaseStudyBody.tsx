@@ -312,13 +312,26 @@ function renderReflection(section: Section) {
 function renderPullQuote(section: Section) {
   const quoteBlock = section.blocks.find((b) => b.type === 'quote')
   if (!quoteBlock) return null
-  // The phrase to lime-underline is authored inline via the same underline
+  // The phrase to lime-highlight is authored inline via the same underline
   // annotation used elsewhere for lime emphasis, rather than reusing the
   // hero's unrelated page-level KeyPhrase.
   const emphasis = blockRichText(quoteBlock).find(
     (r) => (r.annotations as { underline?: boolean }).underline
   )
-  return <CaseStudyPullQuote text={blockPlainText(quoteBlock)} keyPhrase={emphasis?.plain_text} />
+  // Attribution is authored as an all-italic paragraph in the same section.
+  const attrBlock = section.blocks.find(
+    (b) =>
+      b.type === 'paragraph' &&
+      blockRichText(b).length > 0 &&
+      blockRichText(b).every((r) => (r.annotations as { italic?: boolean }).italic)
+  )
+  return (
+    <CaseStudyPullQuote
+      text={blockPlainText(quoteBlock)}
+      keyPhrase={emphasis?.plain_text}
+      attribution={attrBlock ? blockPlainText(attrBlock) : undefined}
+    />
+  )
 }
 
 function renderPrototype(section: Section, fallbackUrl?: string | null, caseStudyTitle?: string) {
