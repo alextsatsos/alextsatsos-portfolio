@@ -1,0 +1,46 @@
+.frame {
+  background: #1a1a2e;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+.photoWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+}
+
+.photo {
+  object-fit: contain;
+  object-position: top;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  margin-top: 12px;
+  text-align: center;
+}

@@ -63,6 +63,7 @@ function pageToCase(page: PageObjectResponse): CaseStudy {
     tagline: text('Tagline'),
     role: text('Role'),
     timeline: text('Timeline'),
+    company: text('Company'),
     platform: text('Platform'),
     heroOutcome: text('HeroOutcome'),
     skills: multiSelect('Skills'),

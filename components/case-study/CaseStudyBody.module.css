@@ -12,6 +12,13 @@
   min-width: 0;
 }
 
+/* No align-self override on .main here on purpose: the grid row (and
+   therefore the zone's height) is sized to the taller of .main / the
+   sidebar, and the shorter column stretches to fill it. That guarantees
+   the next section always starts after BOTH columns end — never
+   overlapping the sidebar — at the cost of trailing whitespace under
+   the shorter column's content. */
+
 .fullWidthZone {
   display: flex;
   flex-direction: column;

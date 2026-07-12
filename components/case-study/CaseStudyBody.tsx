@@ -10,6 +10,7 @@ import PrototypeEmbed from './PrototypeEmbed'
 import OptionCompare from './OptionCompare'
 import WhiteboardPhoto from './WhiteboardPhoto'
 import FramedImage from './FramedImage'
+import BrowserFrame from './BrowserFrame'
 import { CaseStudyImage, ScreenPairGrid } from './CaseStudyImage'
 import type { TocItem } from './TableOfContents'
 import styles from './CaseStudyBody.module.css'
@@ -83,9 +84,19 @@ function embedUrl(block: NotionBlock): string | null {
   return data?.url ?? null
 }
 
+// Two consecutive callouts render as a side-by-side card pair (OptionCompare),
+// which needs full-width room — unlike a single inline callout, which reads
+// fine in the narrower two-column zone.
+function hasCalloutPair(section: Section): boolean {
+  return section.blocks.some(
+    (b, i) => b.type === 'callout' && section.blocks[i + 1]?.type === 'callout'
+  )
+}
+
 function isFeatureSection(section: Section): boolean {
   if (FORCED_FEATURE_KEYS.has(section.key.toLowerCase())) return true
   if (isPrototypeSection(section)) return true
+  if (hasCalloutPair(section)) return true
   return section.blocks.some((b) => VISUAL_BLOCK_TYPES.has(b.type))
 }
 
@@ -132,6 +143,14 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType): React.React
         continue
       }
 
+      if (firstCaption.startsWith('chrome:')) {
+        const src = imageUrl(block)
+        const caption = firstCaption.slice('chrome:'.length).trim()
+        if (src) nodes.push(<BrowserFrame key={block.id} src={src} alt={caption || 'Case study screen'} caption={caption} />)
+        i++
+        continue
+      }
+
       const images: NotionBlock[] = []
       while (i < blocks.length && blocks[i].type === 'image') {
         images.push(blocks[i])
@@ -166,16 +185,21 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType): React.React
     }
 
     if (block.type === 'callout') {
-      // Two callouts back-to-back are an ideation option comparison, not two
-      // separate callout boxes — the second option is the one chosen.
+      // Two callouts back-to-back render side by side. If both labels start
+      // with "Option" it's an ideation comparison — the second is chosen.
+      // Otherwise (e.g. two parallel definitions) neither gets a badge.
       if (i + 1 < blocks.length && blocks[i + 1].type === 'callout') {
         const pair = [block, blocks[i + 1]]
+        const isOptionPair = pair.every((b) => {
+          const { label } = splitCalloutLabel(blockRichText(b))
+          return /^option\b/i.test(label.map((r) => r.plain_text).join(''))
+        })
         nodes.push(
           <OptionCompare
             key={`compare-${nodes.length}`}
             options={pair.map((b, idx) => {
               const { label, body } = splitCalloutLabel(blockRichText(b))
-              return { label: renderRichText(label), body: renderRichText(body), chosen: idx === 1 }
+              return { label: renderRichText(label), body: renderRichText(body), chosen: isOptionPair && idx === 1 }
             })}
           />
         )

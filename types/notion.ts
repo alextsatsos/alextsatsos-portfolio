@@ -15,6 +15,7 @@ export interface CaseStudy {
   tagline: string
   role: string
   timeline: string
+  company: string
   platform: string
   heroOutcome: string
   skills: string[]

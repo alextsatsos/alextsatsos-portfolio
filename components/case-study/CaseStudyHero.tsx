@@ -17,7 +17,9 @@ export default function CaseStudyHero({ meta }: Props) {
 
   const infoColumns = [
     { label: 'Role', value: meta.role },
-    { label: 'Timeline', value: meta.timeline },
+    meta.company
+      ? { label: 'Company', value: meta.company }
+      : { label: 'Timeline', value: meta.timeline },
     { label: 'Platform', value: meta.platform },
     { label: 'Outcome', value: meta.heroOutcome },
   ].filter((col) => col.value)
