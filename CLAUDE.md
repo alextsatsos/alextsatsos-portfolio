@@ -4,11 +4,11 @@
 
 Paste this at the start of any new claude.ai chat to get fully up to speed.
 
-## Recent Changes (Session 5 — July 12, 2026)
+## Recent Changes (Session 6 in progress — July 12, 2026)
 
-- **Enterprise Delivery Tracker (case study 03) complete and shipped.** Uses the new cream tape-strip pull quote (see Design System), the stepper GIF framed in browser chrome, and the annotated three-panel image in the hi-fi section.
-- **Pull quote redesigned to the cream/paper tape-strip card** (replaces the old inline navy treatment — see Design System → Pull quote card). Navy is now reserved for structural elements only: hero, reflection, footer.
-- **Carryover, still current (Sessions 3–4.5):** sidebar/TOC removed — every section renders full-width with no max-width cap (matches hero edges, 1016px at 1280 viewport); Skills live in the hero info bar's "Skills applied" row via `SkillCheck`; whiteboard sketch photo keeps its own 620px cap; image card frame removed (images float on the dot-grid bg, tape strip anchored to the image); WCAG audit passed all 5 groups via axe-core, zero violations.
+- **Session 6 (Install Mods: UX Research) started.** Info-bar skills locked (see Six Case Studies). Its research artifact is a **Google Slides** embed, not Figma — first case study needing this; confirm embed + accessible-title handling before assuming the Figma iframe component can be reused as-is.
+- **Session 5 (Enterprise Delivery Tracker) shipped.** New cream tape-strip pull quote (replaces the inline navy treatment; navy now structural-only — hero/reflection/footer), stepper GIF framed in browser chrome, annotated three-panel image, interactive Figma prototype. The callout heading silently broke during a stacked-layout change and was fixed — re-verify callouts after any layout change touching them (see Design System).
+- **Carryover (Sessions 3–4.5), still current:** sidebar/TOC removed, all sections full-width with no max-width cap (1016px at 1280 viewport); Skills in the hero info bar via `SkillCheck`; whiteboard photo keeps its 620px cap; image card frame removed (images float on the dot-grid bg); footer WCAG fixed (cyan `#00FBEA` handNote → off-white on the navy footer, copy unchanged); axe-core clean across all 5 groups.
 
 ## Who I Am
 
@@ -106,6 +106,11 @@ Key fields:
 
 All 6 Notion page bodies are populated with full copy.
 
+**Info-bar "Skills applied" — LOCKED where Notion's Skills field was empty** (decided fresh, grounded in real work; if a future study's field is empty, confirm before assuming a sync bug):
+
+- 03 Delivery Tracker (5): Information Architecture, Stakeholder Facilitation, Design Systems, Flow Design, Systems Resilience
+- 04 Install Mods (4): User Interviews, Usability Testing, Research Synthesis, Quantitative Usability Metrics (UMUX, SEQ)
+
 ## Case Study Card Quotes — LOCKED
 
 01: Three transactions consolidated into one guided flow — with a reusable stepper that other teams adopted.
@@ -180,16 +185,11 @@ Note: homepage heading hierarchy fixed to include `<h2>` for major section headi
 - ✅ Session 4 — Logic Builder
 - ✅ Session 4.5 — Removed sidebar/TOC, moved Skills into hero info bar
 - ✅ Session 5 — Enterprise Delivery Tracker (shipped; cream pull quote, stepper GIF, annotated three-panel)
-- 🔄 Session 6 — Install Mods: UX Research (next). First case study to embed a **Google Slides** deck (not Figma) for its prototype/research artifact — will likely need new template handling distinct from the Figma iframe pattern used elsewhere (different embed URL, aspect ratio, and `title` attribute).
+- 🔄 Session 6 — Install Mods: UX Research (in progress). Skills locked. Embeds a **Google Slides** deck (not Figma) for its research artifact — first case study needing this; likely new template handling vs. the Figma iframe pattern (different embed URL, aspect ratio, `title`).
 - ⬜ Sessions 7–9 — Not started
 
-## Key Decisions Log
+## Key Decisions Log (per-case-study, beyond the locked specs above)
 
-- Hero card: text only, no image slot (Option A)
-- Case study cards: Option B (pink left border)
-- Case study pages: no sidebar/TOC, all sections full-width with no max-width cap (matches hero edges); Skills lives in hero info bar (Session 3 + 4.5 — previously a two-column zone capped at 760px)
-- Case study images: no card frame, tape strip stays, floats on dot-grid page bg (updated Session 3)
-- Pull quote (in-body): cream tape-strip card, pink inline `"` marks, lime highlight fill on key phrase, witty Architects Daughter attribution (Session 5 — replaces old inline navy treatment; navy now structural-only)
 - Admin Area reflection: NO headline, Hurricane Florence context included, lime → arrows (not standard list bullets)
 - QA Dashboard: mobile screens prioritized, 4-card A/B grid, two prototype embeds side by side
 - Delivery Tracker: stepper GIF (browser-chrome framed) before "design and engineering aligned" callout; annotated three-panel image in hi-fi section
