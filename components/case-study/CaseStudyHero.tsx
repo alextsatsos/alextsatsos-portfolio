@@ -1,5 +1,6 @@
 import type { CaseStudy } from '@/types/notion'
 import { TextWithKeyPhrase } from './LimeUnderline'
+import SkillCheck from '@/components/SkillCheck'
 import styles from './CaseStudyHero.module.css'
 
 interface Props {
@@ -43,14 +44,29 @@ export default function CaseStudyHero({ meta }: Props) {
 
       <div className={styles.seam} />
 
-      {infoColumns.length > 0 && (
+      {(infoColumns.length > 0 || meta.skills.length > 0) && (
         <div className={styles.infoBar}>
-          {infoColumns.map((col) => (
-            <div key={col.label} className={styles.infoColumn}>
-              <p className={styles.infoLabel}>{col.label}</p>
-              <p className={styles.infoValue}>{col.value}</p>
+          {infoColumns.length > 0 && (
+            <div className={styles.infoRow}>
+              {infoColumns.map((col) => (
+                <div key={col.label} className={styles.infoColumn}>
+                  <p className={styles.infoLabel}>{col.label}</p>
+                  <p className={styles.infoValue}>{col.value}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+
+          {meta.skills.length > 0 && (
+            <div className={styles.skillsRow}>
+              <p className={styles.infoLabel}>Skills applied</p>
+              <div className={styles.skillList}>
+                {meta.skills.map((label) => (
+                  <SkillCheck key={label} label={label} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

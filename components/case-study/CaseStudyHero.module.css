@@ -49,13 +49,18 @@
 }
 
 .infoBar {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: 1.5px solid rgba(19, 52, 100, 0.1);
   border-top: none;
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   padding: 24px 40px;
+}
+
+.infoRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
 
@@ -78,8 +83,23 @@
   color: var(--navy);
 }
 
+.skillsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(19, 52, 100, 0.1);
+}
+
+.skillList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
 @media (max-width: 640px) {
-  .infoBar {
+  .infoRow {
     grid-template-columns: repeat(2, 1fr);
   }
 }

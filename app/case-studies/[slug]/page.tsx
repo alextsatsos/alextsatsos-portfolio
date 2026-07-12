@@ -36,7 +36,6 @@ export default async function CaseStudyPage(props: PageProps<'/case-studies/[slu
           <CaseStudyHero meta={meta} />
           <CaseStudyBody
             blocks={blocks}
-            skills={meta.skills}
             caseStudyTitle={meta.title}
             prototypeFallbackUrl={meta.externalLink}
             keyPhrase={meta.keyPhrase}

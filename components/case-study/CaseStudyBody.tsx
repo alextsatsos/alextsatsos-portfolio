@@ -2,7 +2,6 @@ import type { ImageType, NotionBlock, Section } from '@/types/notion'
 import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 import { parseSections, blockPlainText } from '@/lib/parseBlocks'
 import { renderRichText } from '@/lib/renderRichText'
-import CaseStudySidebar from './CaseStudySidebar'
 import CalloutBox from './CalloutBox'
 import ReflectionBlock from './ReflectionBlock'
 import CaseStudyPullQuote from './CaseStudyPullQuote'
@@ -12,12 +11,10 @@ import WhiteboardPhoto from './WhiteboardPhoto'
 import FramedImage from './FramedImage'
 import BrowserFrame from './BrowserFrame'
 import { CaseStudyImage, ScreenPairGrid } from './CaseStudyImage'
-import type { TocItem } from './TableOfContents'
 import styles from './CaseStudyBody.module.css'
 
 interface Props {
   blocks: NotionBlock[]
-  skills: string[]
   caseStudyTitle: string
   prototypeFallbackUrl?: string | null
   keyPhrase?: string | null
@@ -313,7 +310,6 @@ function renderPrototype(section: Section, fallbackUrl?: string | null, caseStud
 
 export default function CaseStudyBody({
   blocks,
-  skills,
   caseStudyTitle,
   prototypeFallbackUrl,
   keyPhrase,
@@ -321,23 +317,19 @@ export default function CaseStudyBody({
 }: Props) {
   const sections = parseSections(blocks).filter((s) => s.key)
 
-  const tocItems: TocItem[] = sections.map((s) => ({ id: slugify(s.key), label: s.key }))
   const narrativeSections = sections.filter((s) => !isFeatureSection(s))
   const featureSections = sections.filter(isFeatureSection)
 
   return (
     <>
       {narrativeSections.length > 0 && (
-        <div className={styles.twoColZone}>
-          <div className={styles.main}>
-            {narrativeSections.map((section) => (
-              <section key={section.key} id={slugify(section.key)} className={styles.section}>
-                <h2 className={styles.heading}>{section.key}</h2>
-                {renderBlocks(section.blocks, imageType)}
-              </section>
-            ))}
-          </div>
-          <CaseStudySidebar tocItems={tocItems} skills={skills} />
+        <div className={styles.narrativeZone}>
+          {narrativeSections.map((section) => (
+            <section key={section.key} id={slugify(section.key)} className={styles.section}>
+              <h2 className={styles.heading}>{section.key}</h2>
+              {renderBlocks(section.blocks, imageType)}
+            </section>
+          ))}
         </div>
       )}
 
