@@ -5,9 +5,13 @@ interface Props {
   fallbackUrl?: string | null
   label?: string
   title?: string
+  // When set (e.g. "960 / 569" for Google Slides), the iframe sizes to this
+  // aspect ratio instead of the Figma-tuned fixed height, so 16:9-ish decks
+  // aren't letterboxed or cropped.
+  aspectRatio?: string
 }
 
-export default function PrototypeEmbed({ embedUrl, fallbackUrl, label = 'Prototype', title }: Props) {
+export default function PrototypeEmbed({ embedUrl, fallbackUrl, label = 'Prototype', title, aspectRatio }: Props) {
   return (
     <div className={styles.frame}>
       <div className={styles.bar}>
@@ -20,7 +24,13 @@ export default function PrototypeEmbed({ embedUrl, fallbackUrl, label = 'Prototy
       </div>
 
       {embedUrl ? (
-        <iframe src={embedUrl} title={title || label} className={styles.iframe} allowFullScreen />
+        <iframe
+          src={embedUrl}
+          title={title || label}
+          className={styles.iframe}
+          style={aspectRatio ? { height: 'auto', aspectRatio } : undefined}
+          allowFullScreen
+        />
       ) : (
         fallbackUrl && (
           <div className={styles.fallback}>

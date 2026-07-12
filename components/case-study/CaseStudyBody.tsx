@@ -96,7 +96,11 @@ function isFeatureSection(section: Section): boolean {
   return section.blocks.some((b) => VISUAL_BLOCK_TYPES.has(b.type))
 }
 
-function renderBlocks(blocks: NotionBlock[], imageType?: ImageType): React.ReactNode {
+function isSlidesUrl(url: string | null): boolean {
+  return Boolean(url && url.includes('docs.google.com/presentation'))
+}
+
+function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTitle?: string): React.ReactNode {
   const nodes: React.ReactNode[] = []
   let i = 0
 
@@ -255,7 +259,19 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType): React.React
 
     if (block.type === 'embed') {
       const url = embedUrl(block)
-      nodes.push(<PrototypeEmbed key={block.id} embedUrl={url} />)
+      // Google Slides decks (e.g. a research readout) reuse the same browser
+      // chrome as the Figma prototype embed, but need their own ~16:9 aspect
+      // ratio, a research-appropriate label, and a data-driven accessible title.
+      const slides = isSlidesUrl(url)
+      nodes.push(
+        <PrototypeEmbed
+          key={block.id}
+          embedUrl={url}
+          label={slides ? 'Research readout' : 'Prototype'}
+          title={slides && caseStudyTitle ? `Research findings slide deck for ${caseStudyTitle}` : undefined}
+          aspectRatio={slides ? '960 / 569' : undefined}
+        />
+      )
       i++
       continue
     }
@@ -364,7 +380,7 @@ export default function CaseStudyBody({
           {narrativeSections.map((section) => (
             <section key={section.key} id={slugify(section.key)} className={styles.section}>
               <h2 className={styles.heading}>{section.key}</h2>
-              {renderBlocks(section.blocks, imageType)}
+              {renderBlocks(section.blocks, imageType, caseStudyTitle)}
             </section>
           ))}
         </div>
@@ -385,7 +401,7 @@ export default function CaseStudyBody({
                     ? renderPullQuote(section)
                     : isPrototypeSection(section)
                       ? renderPrototype(section, prototypeFallbackUrl, caseStudyTitle)
-                      : renderBlocks(section.blocks, imageType)}
+                      : renderBlocks(section.blocks, imageType, caseStudyTitle)}
               </section>
             )
           })}
