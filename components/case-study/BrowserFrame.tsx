@@ -5,9 +5,12 @@ interface Props {
   src: string
   alt: string
   caption?: string
+  animated?: boolean
+  width?: number
+  height?: number
 }
 
-export default function BrowserFrame({ src, alt, caption }: Props) {
+export default function BrowserFrame({ src, alt, caption, animated, width, height }: Props) {
   return (
     <figure>
       <div className={styles.frame}>
@@ -18,9 +21,16 @@ export default function BrowserFrame({ src, alt, caption }: Props) {
             <span className={`${styles.dot} ${styles.green}`} />
           </span>
         </span>
-        <div className={styles.photoWrap}>
-          <Image src={src} alt={alt} fill sizes="1016px" className={styles.photo} />
-        </div>
+        {animated ? (
+          // GIFs don't animate through Next Image, so render raw. width/height
+          // attrs reserve aspect-ratio space to avoid layout shift on load.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={src} alt={alt} width={width} height={height} className={styles.animatedPhoto} />
+        ) : (
+          <div className={styles.photoWrap}>
+            <Image src={src} alt={alt} fill sizes="1016px" className={styles.photo} />
+          </div>
+        )}
       </div>
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>

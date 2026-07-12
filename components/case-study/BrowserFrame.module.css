@@ -37,6 +37,12 @@
   object-position: top;
 }
 
+.animatedPhoto {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .caption {
   font-family: var(--font-body);
   font-size: 0.8rem;

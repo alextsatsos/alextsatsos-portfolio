@@ -27,19 +27,6 @@
   border-radius: var(--radius-md);
 }
 
-.dockedFigure {
-  display: flex;
-  justify-content: center;
-}
-
-.docked {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 8px 0 0 8px;
-  border-left: 1px solid rgba(19, 52, 100, 0.35);
-  box-shadow: -12px 0 24px -8px rgba(19, 52, 100, 0.25);
-}
-
 .caption {
   font-family: var(--font-body);
   font-size: 0.8rem;
