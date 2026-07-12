@@ -4,18 +4,11 @@
 
 Paste this at the start of any new claude.ai chat to get fully up to speed.
 
-## Recent Changes (Session 3 — July 11, 2026)
+## Recent Changes (Session 4.5 — July 11, 2026)
 
-- **Full-width zone no longer capped at 760px.** It now matches the hero and two-column zone's edges exactly (1016px wide at 1280 viewport, 132px/1148px left/right). Body paragraphs wrap at the wider measure. Previously documented as "max-width: 760px" — that's superseded.
-- **Whiteboard sketch photo keeps its own 620px cap** — it's a discrete image card, not running text, so it intentionally did not widen with the rest of the zone.
-- **Mobile sidebar order fixed to match locked spec.** TOC + Skills now correctly collapse ABOVE the Overview content on mobile (`flex-direction: column-reverse`), sidebar loses `position: sticky` under the mobile breakpoint. This was a bug in the initial Session 2 build, now resolved.
-- **Image card frame removed across all case studies.** Images (photos, annotated screenshots, GIFs) no longer sit inside a white card with box-shadow/padding — they float directly on the dot-grid page background. The tape strip decoration stays, now anchored to the image itself rather than to a card.
-- **WCAG audit completed and fixed, all 5 groups**, verified via axe-core (see new WCAG section below for the specific rules now enforced in code, not just documented). Homepage, unlocked case study page, and locked password gate all report zero axe-core violations. Not yet committed — pending decision on one commit vs. split by group. Specifics:
-  - `NotebookTab` ("// case studies", "// about me") changed from `<span>` to `<h2>` — these are the natural H2 level between the H1 hero and H3 subheadings. Rendered pixel-identical to before via explicit `font-weight: 400` and margin reset. Heading order is now h1 → h2 → h2 → h3 → h3, no skips.
-  - Figma iframe `title` attribute is data-driven off the case study's `meta.title` rather than hardcoded, so all 6 case studies get a correct accessible name automatically as prototypes are added.
-  - `Nav.tsx` → `aria-label="Main navigation"`, `PrevNextNav.tsx` → `aria-label="Case study navigation"`.
-  - `PasswordGate.tsx` input has a real `<label for="case-study-password">Password</label>`, visually hidden via a standard sr-only clip pattern (placeholder kept too).
-  - Two additional violations surfaced only when testing the locked gate state (the original audit auto-unlocked before scanning, so never tested this state): submit button contrast and a missing `<h1>` while locked. Both fixed (details below).
+- **Two-column sidebar zone removed entirely from the case study template.** No more TOC ("On this page") or standalone Skills card — `CaseStudySidebar.tsx`, `TableOfContents.tsx`, and their CSS are deleted, along with the sticky positioning and mobile reordering that used to apply to them. Overview/Background and every other section now render full-width from the very first paragraph — there is no narrower column anywhere on the page.
+- **Skills moved into the hero's white info bar.** Below the existing Role/Timeline (or Company)/Platform/Outcome row, a hairline divider separates a new "Skills applied" row — small muted label, then the case study's skills rendered via `SkillCheck`, wrapping horizontally in a flex row. Applied to both `CaseStudyHero.tsx`/`.module.css` and confirmed on both existing case studies (Split Tender Refunds, Logic Builder). This supersedes the old sidebar Skills card described in earlier sessions.
+- **Session 3 carryover, still current:** full-width zone has no max-width cap (matches hero edges, 1016px at 1280 viewport); whiteboard sketch photo keeps its own 620px cap; image card frame removed across all case studies (images float on the dot-grid bg, tape strip anchored to the image); WCAG audit passed all 5 groups via axe-core, zero violations on homepage/unlocked case study/locked password gate.
 
 ## Who I Am
 
@@ -59,9 +52,9 @@ Used on key phrases only, never whole sentences.
 - Password gate's "View Case Study" submit button (white text on pink `#FF2687` fill) is sized at 1.2rem (19.2px) bold specifically to clear the WCAG large-bold text threshold (18.66px, where the required ratio drops from 4.5:1 to 3:1) — don't shrink this button below that size without also darkening the fill
 - Password gate's heading renders as `<h1>` while locked (not `<h2>`) — this is intentional and safe, since `PasswordGate` fully replaces its children (including the real page's `<h1>`) while locked, so the two never coexist on screen at once
 
-**SkillCheck component**: 18px navy-outlined box (1.5px solid, 4px radius), inline SVG pink check path `d="M5 12l4 4 10-11"`, navy Hanken Grotesk 500 label, 9px gap. Box is `aria-hidden`. NOT a checkbox input.
+**SkillCheck component**: 18px navy-outlined box (1.5px solid, 4px radius), inline SVG pink check path `d="M5 12l4 4 10-11"`, navy Hanken Grotesk 500 label, 9px gap. Box is `aria-hidden`. NOT a checkbox input. Used in the case study hero info bar's "Skills applied" row (wraps horizontally) — no longer lives in a sidebar card.
 
-**Sidebar cards**: White bg, NO border, `box-shadow: 0 4px 16px rgba(19,52,100,0.08), 0 1px 4px rgba(19,52,100,0.05)`. Tape strip: `#E8DFC8`, position absolute, top -9px, centered, 44px x 16px.
+**Tape-strip card style** (still used by `AboutSection` and `WhiteboardPhoto`, no longer by case study sidebars since those are gone): white bg, NO border, `box-shadow: 0 4px 16px rgba(19,52,100,0.08), 0 1px 4px rgba(19,52,100,0.05)`. Tape strip: `#E8DFC8`, position absolute, top -9px, centered, 44px x 16px.
 
 **Case study cards (homepage)**: Option B style — pink left border (4px), white bg, shadow, border-radius 20px. Three columns: number+client left / quote center / tags+arrow right. Password protected tag: background `rgba(255,38,135,0.08)`, color `var(--pink)`
 
@@ -71,11 +64,10 @@ Used on key phrases only, never whole sentences.
 
 ### Case study pages
 
-- Two-column zone (1fr + 240px sidebar, gap 48px): ONLY for sections that fully fill sidebar height
-- Full-width zone: no max-width cap — matches the hero and two-column zone's left/right edges exactly (spans full container width, 1016px at 1280 viewport). Previously documented as capped at 760px; that cap was removed so all three zones (hero, two-column, full-width) share identical edges.
+- **No sidebar, no two-column zone.** Every section — Overview/Background included — renders full-width, same treatment as the rest of the page. The old `1fr 240px` grid, its sticky sidebar, and its mobile reorder logic are gone (removed Session 4.5).
+- Full-width zone has no max-width cap — matches the hero's left/right edges exactly (spans full container width, 1016px at 1280 viewport).
 - No partial overlaps, no dead space
-- Mobile: `flex-direction: column-reverse` — sidebar (TOC + Skills) collapses ABOVE main content, not below it. Confirmed working as of Session 3.
-- Sidebar loses sticky on mobile (`position: static` under the mobile breakpoint)
+- TOC ("On this page") no longer exists anywhere in the template.
 
 ### Hero card
 
@@ -83,7 +75,7 @@ Used on key phrases only, never whole sentences.
 - Navy gradient (135deg, `#133464` → `#1a4280`), dot-grid overlay
 - `border-radius: 20px 20px 0 0` (rounded top, square bottom)
 - 3px pink seam between hero and info bar
-- Info bar: white bg, `border-radius: 0 0 20px 20px`
+- Info bar: white bg, `border-radius: 0 0 20px 20px`. Two rows: Role/Timeline (or Company)/Platform/Outcome, then a hairline-divided "Skills applied" row with wrapping `SkillCheck` items (added Session 4.5, replaces the old sidebar Skills card)
 
 ## Notion CMS
 
@@ -178,16 +170,18 @@ Note: homepage heading hierarchy fixed to include `<h2>` for major section headi
 - ✅ Session 0 — Homepage hero + about (pushed)
 - ✅ Session 1 — PasswordGate component (pushed, merged feat/password-gate → main)
 - ✅ Session 2 — Case study page template (pushed, commit a6f5d2b)
-- 🔄 Session 3 — Split Tender Refunds (in progress; layout width fix, image frame removal, mobile sidebar order fix, and WCAG fixes applied — confirm all committed before moving to Session 4)
-- ⬜ Sessions 4–9 — Not started
+- ✅ Session 3 — Split Tender Refunds (layout width fix, image frame removal, WCAG fixes)
+- ✅ Session 4 — Logic Builder
+- ✅ Session 4.5 — Removed sidebar/TOC, moved Skills into hero info bar; applied to both Split Tender Refunds and Logic Builder
+- 🔄 Session 5 — Enterprise Delivery Tracker (next)
+- ⬜ Sessions 6–9 — Not started
 
 ## Key Decisions Log
 
 - Hero card: text only, no image slot (Option A)
 - Case study cards: Option B (pink left border)
-- Two-column layout: sidebar only when it fills height, otherwise full width
-- Full-width zone: no max-width cap, matches hero/sidebar edges exactly (updated Session 3 — previously 760px)
-- Mobile: sidebar collapses above content using column-reverse, loses sticky
+- Case study pages: no sidebar/TOC, all sections full-width; Skills lives in hero info bar (updated Session 4.5 — previously a two-column zone with a sidebar)
+- Full-width zone: no max-width cap, matches hero edges exactly (updated Session 3 — previously 760px)
 - Case study images: no card frame, tape strip stays, floats on dot-grid page bg (updated Session 3)
 - Pull quote (Delivery Tracker only): both `"` marks pink, inline with text, lime underline on "essentially disappeared"
 - Reflection bullets (Admin Area): lime → arrows, not standard list bullets
