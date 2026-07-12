@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # Alex Tsatsos Portfolio — Context Pack
 
 Paste this at the start of any new claude.ai chat to get fully up to speed.
