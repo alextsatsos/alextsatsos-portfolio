@@ -148,6 +148,29 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType): React.React
         continue
       }
 
+      if (firstCaption.startsWith('gif:')) {
+        // Forces raw <img> rendering regardless of the case study's page-level
+        // ImageType, since Next Image can't animate GIFs. Docked styling +
+        // intrinsic width/height (this GIF's real 720x1920) reserve the
+        // side-panel-sized box before it loads, avoiding layout shift.
+        const src = imageUrl(block)
+        const caption = firstCaption.slice('gif:'.length).trim()
+        if (src) nodes.push(
+          <CaseStudyImage
+            key={block.id}
+            src={src}
+            alt={caption || 'Case study screen'}
+            caption={caption}
+            imageType="gif"
+            width={720}
+            height={1920}
+            docked
+          />
+        )
+        i++
+        continue
+      }
+
       const images: NotionBlock[] = []
       while (i < blocks.length && blocks[i].type === 'image') {
         images.push(blocks[i])

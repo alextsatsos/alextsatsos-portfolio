@@ -7,14 +7,24 @@ interface ImageSpec {
   alt: string
   caption?: string
   imageType?: ImageType
+  width?: number
+  height?: number
+  docked?: boolean
 }
 
-export function CaseStudyImage({ src, alt, caption, imageType }: ImageSpec) {
+export function CaseStudyImage({ src, alt, caption, imageType, width, height, docked }: ImageSpec) {
   if (imageType === 'gif') {
     return (
-      <figure>
-        {/* Next Image doesn't animate GIFs, so render this one directly. */}
-        <img src={src} alt={alt} className={styles.gif} />
+      <figure className={docked ? styles.dockedFigure : undefined}>
+        {/* Next Image doesn't animate GIFs, so render this one directly.
+            width/height attrs reserve aspect-ratio space before it loads. */}
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className={docked ? `${styles.gif} ${styles.docked}` : styles.gif}
+        />
         {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
       </figure>
     )
