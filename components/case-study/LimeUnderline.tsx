@@ -17,7 +17,7 @@ export default function LimeUnderline({ children, width = 100 }: Props) {
       >
         <path
           d={`M0 7 L${width} 4`}
-          stroke="#D8FF76"
+          style={{ stroke: 'var(--lime)' }}
           strokeWidth="2.5"
           strokeLinecap="round"
         />

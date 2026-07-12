@@ -1,9 +1,8 @@
 .mark {
-  background-image: linear-gradient(to right, #D8FF76, #D8FF76);
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 100% 3px;
-  padding-bottom: 2px;
+  background: var(--lime);
+  color: var(--navy);
+  padding: 0 2px;
+  border-radius: 2px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
