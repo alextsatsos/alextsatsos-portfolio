@@ -31,6 +31,33 @@
   color: rgba(255, 255, 255, 0.75);
 }
 
+.arrowList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0 0;
+  padding: 0;
+}
+
+.arrowList li {
+  position: relative;
+  padding-left: 30px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.arrowList li::before {
+  content: "\2192"; /* → lime arrow marker (design system: lime on navy) */
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--lime);
+  font-weight: 700;
+}
+
 .note {
   font-family: var(--font-hand);
   font-style: italic;

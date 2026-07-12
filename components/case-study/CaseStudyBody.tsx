@@ -311,12 +311,19 @@ function renderReflection(section: Section) {
   const headline = firstIsHeadline ? renderRichText(firstRich) : undefined
   const bodyParagraphs = firstIsHeadline ? withoutNote.slice(1) : withoutNote
 
+  // A trailing bulleted list (e.g. "what I'd do next") renders with lime arrow
+  // markers via ReflectionBlock rather than the standard prose bullet list.
+  const bullets = section.blocks
+    .filter((b) => b.type === 'bulleted_list_item')
+    .map((b) => renderRichText(blockRichText(b)))
+
   return (
     <ReflectionBlock
       headline={headline}
       body={bodyParagraphs.map((p) => (
         <p key={p.id}>{renderRichText(blockRichText(p))}</p>
       ))}
+      bullets={bullets.length > 0 ? bullets : undefined}
       note={note}
     />
   )
