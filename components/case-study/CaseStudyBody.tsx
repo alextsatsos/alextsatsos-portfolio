@@ -10,6 +10,8 @@ import OptionCompare from './OptionCompare'
 import WhiteboardPhoto from './WhiteboardPhoto'
 import FramedImage from './FramedImage'
 import BrowserFrame from './BrowserFrame'
+import DeviceScreens from './DeviceScreens'
+import PrototypePair from './PrototypePair'
 import { CaseStudyImage, ScreenPairGrid } from './CaseStudyImage'
 import styles from './CaseStudyBody.module.css'
 
@@ -19,9 +21,6 @@ interface Props {
   prototypeFallbackUrl?: string | null
   imageType?: ImageType
 }
-
-const VISUAL_BLOCK_TYPES = new Set(['image', 'embed', 'quote'])
-const FORCED_FEATURE_KEYS = new Set(['reflection', 'pull quote'])
 
 // Matches "Prototype", "Interactive Prototype", etc. — the section may have
 // no embed block yet (e.g. link not added), so it can't rely on
@@ -80,20 +79,11 @@ function embedUrl(block: NotionBlock): string | null {
   return data?.url ?? null
 }
 
-// Two consecutive callouts render as a side-by-side card pair (OptionCompare),
-// which needs full-width room — unlike a single inline callout, which reads
-// fine in the narrower two-column zone.
-function hasCalloutPair(section: Section): boolean {
-  return section.blocks.some(
-    (b, i) => b.type === 'callout' && section.blocks[i + 1]?.type === 'callout'
-  )
-}
-
-function isFeatureSection(section: Section): boolean {
-  if (FORCED_FEATURE_KEYS.has(section.key.toLowerCase())) return true
-  if (isPrototypeSection(section)) return true
-  if (hasCalloutPair(section)) return true
-  return section.blocks.some((b) => VISUAL_BLOCK_TYPES.has(b.type))
+function embedCaption(block: NotionBlock): string {
+  const data = (block as Record<string, unknown>)['embed'] as
+    | { caption?: RichTextItemResponse[] }
+    | undefined
+  return (data?.caption ?? []).map((r) => r.plain_text).join('')
 }
 
 function isSlidesUrl(url: string | null): boolean {
@@ -127,10 +117,51 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
     if (block.type === 'image') {
       const firstCaption = imageCaption(block)
 
+      // "desktop:"/"mobile:" prefixed images group into a natural-aspect device
+      // grid (final UI screens). Consecutive same-prefix images collect into one
+      // grid, so a desktop pair and a mobile pair render as separate rows.
+      if (firstCaption.startsWith('desktop:') || firstCaption.startsWith('mobile:')) {
+        const variant = firstCaption.startsWith('mobile:') ? 'mobile' : 'desktop'
+        const prefix = `${variant}:`
+        const screens: { src: string; alt: string; caption?: string }[] = []
+        while (
+          i < blocks.length &&
+          blocks[i].type === 'image' &&
+          imageCaption(blocks[i]).startsWith(prefix)
+        ) {
+          const src = imageUrl(blocks[i])
+          const caption = imageCaption(blocks[i]).slice(prefix.length).trim()
+          if (src) screens.push({ src, alt: caption || `${variant} screen`, caption })
+          i++
+        }
+        if (screens.length > 0) {
+          nodes.push(<DeviceScreens key={`screens-${nodes.length}`} variant={variant} screens={screens} />)
+        }
+        continue
+      }
+
       if (firstCaption.startsWith('sketch:')) {
         const src = imageUrl(block)
         const caption = firstCaption.slice('sketch:'.length).trim()
         if (src) nodes.push(<WhiteboardPhoto key={block.id} src={src} alt={caption || 'Whiteboard sketch'} caption={caption} />)
+        i++
+        continue
+      }
+
+      // "shot:" — a single image at its natural aspect, centered and width-capped
+      // (for portrait/comparison graphics that neither the 16/10 box nor the wide
+      // frame treatment fit).
+      if (firstCaption.startsWith('shot:')) {
+        const src = imageUrl(block)
+        const caption = firstCaption.slice('shot:'.length).trim()
+        if (src)
+          nodes.push(
+            <figure key={block.id} className={styles.shot}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- natural aspect, unknown dims */}
+              <img src={src} alt={caption || 'Case study screen'} loading="lazy" decoding="async" className={styles.shotImg} />
+              {caption && <figcaption className={styles.shotCaption}>{caption}</figcaption>}
+            </figure>
+          )
         i++
         continue
       }
@@ -258,21 +289,48 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
     }
 
     if (block.type === 'embed') {
-      const url = embedUrl(block)
+      // Consecutive embeds render side by side (e.g. a mobile and a desktop
+      // prototype direction). Each embed's Notion caption drives its frame label
+      // and accessible title; falls back to device position if uncaptioned.
+      const embeds: NotionBlock[] = []
+      while (i < blocks.length && blocks[i].type === 'embed') {
+        embeds.push(blocks[i])
+        i++
+      }
+
+      if (embeds.length >= 2) {
+        nodes.push(
+          <PrototypePair
+            key={`proto-pair-${nodes.length}`}
+            embeds={embeds.map((b, idx) => {
+              const caption = embedCaption(b)
+              const label = caption || (idx === 0 ? 'Mobile prototype' : 'Desktop prototype')
+              return {
+                url: embedUrl(b),
+                label,
+                title: caseStudyTitle ? `${label} for ${caseStudyTitle}` : label,
+              }
+            })}
+          />
+        )
+        continue
+      }
+
+      const block0 = embeds[0]
+      const url = embedUrl(block0)
       // Google Slides decks (e.g. a research readout) reuse the same browser
       // chrome as the Figma prototype embed, but need their own ~16:9 aspect
       // ratio, a research-appropriate label, and a data-driven accessible title.
       const slides = isSlidesUrl(url)
       nodes.push(
         <PrototypeEmbed
-          key={block.id}
+          key={block0.id}
           embedUrl={url}
           label={slides ? 'Research readout' : 'Prototype'}
           title={slides && caseStudyTitle ? `Research findings slide deck for ${caseStudyTitle}` : undefined}
           aspectRatio={slides ? '960 / 569' : undefined}
         />
       )
-      i++
       continue
     }
 
@@ -377,43 +435,27 @@ export default function CaseStudyBody({
 }: Props) {
   const sections = parseSections(blocks).filter((s) => s.key)
 
-  const narrativeSections = sections.filter((s) => !isFeatureSection(s))
-  const featureSections = sections.filter(isFeatureSection)
-
+  // Every section renders full-width in document order (locked layout rule since
+  // the two-column zone was removed). Reflection and pull quote drop the H2 and
+  // use their own renderers; a prototype section gets the embed treatment.
   return (
-    <>
-      {narrativeSections.length > 0 && (
-        <div className={styles.narrativeZone}>
-          {narrativeSections.map((section) => (
-            <section key={section.key} id={slugify(section.key)} className={styles.section}>
-              <h2 className={styles.heading}>{section.key}</h2>
-              {renderBlocks(section.blocks, imageType, caseStudyTitle)}
-            </section>
-          ))}
-        </div>
-      )}
-
-      {featureSections.length > 0 && (
-        <div className={styles.fullWidthZone}>
-          {featureSections.map((section) => {
-            const key = section.key.toLowerCase()
-            return (
-              <section key={section.key} id={slugify(section.key)} className={styles.section}>
-                {key !== 'reflection' && key !== 'pull quote' && (
-                  <h2 className={styles.heading}>{section.key}</h2>
-                )}
-                {key === 'reflection'
-                  ? renderReflection(section)
-                  : key === 'pull quote'
-                    ? renderPullQuote(section)
-                    : isPrototypeSection(section)
-                      ? renderPrototype(section, prototypeFallbackUrl, caseStudyTitle)
-                      : renderBlocks(section.blocks, imageType, caseStudyTitle)}
-              </section>
-            )
-          })}
-        </div>
-      )}
-    </>
+    <div className={styles.zone}>
+      {sections.map((section) => {
+        const key = section.key.toLowerCase()
+        const showHeading = key !== 'reflection' && key !== 'pull quote'
+        return (
+          <section key={section.key} id={slugify(section.key)} className={styles.section}>
+            {showHeading && <h2 className={styles.heading}>{section.key}</h2>}
+            {key === 'reflection'
+              ? renderReflection(section)
+              : key === 'pull quote'
+                ? renderPullQuote(section)
+                : isPrototypeSection(section)
+                  ? renderPrototype(section, prototypeFallbackUrl, caseStudyTitle)
+                  : renderBlocks(section.blocks, imageType, caseStudyTitle)}
+          </section>
+        )
+      })}
+    </div>
   )
 }
