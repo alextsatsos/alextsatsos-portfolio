@@ -32,9 +32,35 @@ const architects = Architects_Daughter({
   display: "swap",
 });
 
+const SITE_URL = "https://alextsatsos.com";
+const DESCRIPTION =
+  "UX designer with 8+ years in fintech and enterprise retail. I design the complex workflows that power high-stakes software — not the polished consumer flows everyone else designs.";
+
 export const metadata: Metadata = {
-  title: "Alex Tsatsos — Senior UX & Product Designer",
-  description: "Portfolio of Alex Tsatsos",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default:
+      "Alex Tsatsos — Senior UX & Product Designer | Enterprise & Fintech UX",
+    template: "%s — Alex Tsatsos",
+  },
+  description: DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Alex Tsatsos",
+    title:
+      "Alex Tsatsos — Senior UX & Product Designer | Enterprise & Fintech UX",
+    description: DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Alex Tsatsos — Senior UX & Product Designer | Enterprise & Fintech UX",
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

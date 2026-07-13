@@ -11,7 +11,33 @@ export async function generateMetadata(props: PageProps<'/case-studies/[slug]'>)
   const { slug } = await props.params
   try {
     const { meta } = await getCaseStudyBySlug(slug)
-    return { title: meta.title, description: meta.tagline }
+    const canonical = `/case-studies/${slug}`
+    // Defining openGraph on the page drops the root opengraph-image
+    // convention's inherited image, so reference it explicitly.
+    const ogImage = {
+      url: '/opengraph-image',
+      width: 1200,
+      height: 630,
+      type: 'image/png',
+    }
+    return {
+      title: meta.title,
+      description: meta.tagline,
+      alternates: { canonical },
+      openGraph: {
+        type: 'article',
+        url: canonical,
+        title: meta.title,
+        description: meta.tagline,
+        images: [ogImage],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: meta.title,
+        description: meta.tagline,
+        images: [ogImage],
+      },
+    }
   } catch {
     return {}
   }
