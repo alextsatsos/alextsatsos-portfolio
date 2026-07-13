@@ -146,6 +146,18 @@
   line-height: 1.5;
 }
 
+.cardLink {
+  color: var(--navy);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  width: fit-content;
+}
+
+.cardLink:hover {
+  color: var(--pink);
+  text-decoration: underline;
+}
+
 @media (max-width: 860px) {
   .inner {
     grid-template-columns: 1fr;

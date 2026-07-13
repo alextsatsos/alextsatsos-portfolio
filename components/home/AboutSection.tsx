@@ -52,6 +52,15 @@ export default function AboutSection({
 
   const contactRows = parseTable(contactSection.blocks)
 
+  // Turn the email and LinkedIn contact values into real clickable links.
+  // Everything else (e.g. Location) stays plain text.
+  function contactHref(label: string, value: string): string | null {
+    const key = label.trim().toLowerCase()
+    if (key === 'email') return `mailto:${value.trim()}`
+    if (key === 'linkedin') return 'https://www.linkedin.com/in/alextsatsos'
+    return null
+  }
+
   const funFacts = parseBullets(funFactsSection.blocks)
   const currently = parseBullets(currentlySection.blocks)
 
@@ -102,12 +111,28 @@ export default function AboutSection({
             <div className={styles.tape} />
             <h3 className={styles.cardTitle}>Contact</h3>
             <ul className={styles.cardList}>
-              {contactRows.map(([label, value], i) => (
-                <li key={i}>
-                  <span className={styles.cardLabel}>{label}</span>
-                  <span className={styles.cardValue}>{value}</span>
-                </li>
-              ))}
+              {contactRows.map(([label, value], i) => {
+                const href = contactHref(label, value)
+                const isExternal = href?.startsWith('http')
+                return (
+                  <li key={i}>
+                    <span className={styles.cardLabel}>{label}</span>
+                    {href ? (
+                      <a
+                        className={`${styles.cardValue} ${styles.cardLink}`}
+                        href={href}
+                        {...(isExternal
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : {})}
+                      >
+                        {value}
+                      </a>
+                    ) : (
+                      <span className={styles.cardValue}>{value}</span>
+                    )}
+                  </li>
+                )
+              })}
             </ul>
           </div>
 
