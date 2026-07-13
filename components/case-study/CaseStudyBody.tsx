@@ -354,32 +354,35 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
 }
 
 function renderReflection(section: Section) {
+  // The reflection block sits on a navy background, so lime emphasis inside it
+  // must use the SVG underline device (not the light-background highlight fill).
+  const dark = { limeVariant: 'underline' as const }
   const paragraphs = section.blocks.filter((b) => b.type === 'paragraph')
   const last = paragraphs[paragraphs.length - 1]
   const lastRich = last ? blockRichText(last) : []
   const lastIsNote = lastRich.length > 0 && lastRich.every((r) => (r.annotations as { italic?: boolean }).italic)
 
   const withoutNote = lastIsNote ? paragraphs.slice(0, -1) : paragraphs
-  const note = lastIsNote ? renderRichText(lastRich) : undefined
+  const note = lastIsNote ? renderRichText(lastRich, dark) : undefined
 
   const first = withoutNote[0]
   const firstRich = first ? blockRichText(first) : []
   const firstIsHeadline = firstRich.length > 0 && firstRich.every((r) => (r.annotations as { bold?: boolean }).bold)
 
-  const headline = firstIsHeadline ? renderRichText(firstRich) : undefined
+  const headline = firstIsHeadline ? renderRichText(firstRich, dark) : undefined
   const bodyParagraphs = firstIsHeadline ? withoutNote.slice(1) : withoutNote
 
   // A trailing bulleted list (e.g. "what I'd do next") renders with lime arrow
   // markers via ReflectionBlock rather than the standard prose bullet list.
   const bullets = section.blocks
     .filter((b) => b.type === 'bulleted_list_item')
-    .map((b) => renderRichText(blockRichText(b)))
+    .map((b) => renderRichText(blockRichText(b), dark))
 
   return (
     <ReflectionBlock
       headline={headline}
       body={bodyParagraphs.map((p) => (
-        <p key={p.id}>{renderRichText(blockRichText(p))}</p>
+        <p key={p.id}>{renderRichText(blockRichText(p), dark)}</p>
       ))}
       bullets={bullets.length > 0 ? bullets : undefined}
       note={note}
