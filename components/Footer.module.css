@@ -1,18 +1,56 @@
 .footer {
+  position: relative;
   background-color: var(--navy);
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.2px, transparent 1.2px);
-  background-size: var(--dot-size) var(--dot-size);
-  background-attachment: fixed;
   text-align: center;
 }
 
+/* Full-bleed dot overlay for the footer area outside the centered content
+   column. The dots are a background-image, so they can't sit on an ancestor of
+   the text — contrast tools (axe) can't resolve an effective background through
+   a background-image and fall back to the page's near-white bg, a false-positive
+   failure. Keeping them on a pseudo-element leaves the text's real ancestors
+   with a solid navy background-color. */
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.2px, transparent 1.2px);
+  background-size: var(--dot-size) var(--dot-size);
+  background-attachment: fixed;
+}
+
+/* The content column carries its own solid navy so axe reads a real background
+   for the text (off-white on navy is ~12:1, AAA). Its dot-grid is re-applied via
+   ::before, painted behind the text, and stays aligned with the footer's dots
+   through background-attachment: fixed. */
 .inner {
+  position: relative;
+  z-index: 1;
+  background-color: var(--navy);
   padding-top: 48px;
   padding-bottom: 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+.inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1.2px, transparent 1.2px);
+  background-size: var(--dot-size) var(--dot-size);
+  background-attachment: fixed;
+}
+
+.inner > * {
+  position: relative;
+  z-index: 1;
 }
 
 .logo {

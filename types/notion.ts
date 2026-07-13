@@ -11,6 +11,7 @@ export interface CaseStudy {
   published: boolean
   order: number
   category: string
+  cardTag: string
   eyebrow: string
   tagline: string
   role: string

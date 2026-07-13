@@ -1,14 +1,3 @@
-.workPlaceholder {
+.work {
   padding: 80px 0;
-}
-
-.placeholder {
-  margin-top: 24px;
-  font-family: var(--font-hand);
-  font-size: 1.1rem;
-  color: var(--ink-light);
-  border: 2px dashed rgba(19, 52, 100, 0.2);
-  border-radius: var(--radius-md);
-  padding: 48px;
-  text-align: center;
 }

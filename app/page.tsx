@@ -1,13 +1,14 @@
-import { getHomePage } from '@/lib/notion'
+import { getHomePage, getCaseStudies } from '@/lib/notion'
 import { parseSections } from '@/lib/parseBlocks'
 import PageDivider from '@/components/PageDivider'
 import HeroSection from '@/components/home/HeroSection'
 import AboutSection from '@/components/home/AboutSection'
 import NotebookTab from '@/components/home/NotebookTab'
+import CaseStudyCards from '@/components/home/CaseStudyCards'
 import styles from './page.module.css'
 
 export default async function Home() {
-  const blocks = await getHomePage()
+  const [blocks, caseStudies] = await Promise.all([getHomePage(), getCaseStudies()])
   const sections = parseSections(blocks)
 
   function getSection(key: string) {
@@ -33,10 +34,10 @@ export default async function Home() {
 
       <PageDivider />
 
-      <section className={styles.workPlaceholder} id="work">
+      <section className={styles.work} id="work">
         <div className="container">
           <NotebookTab label="// case studies" />
-          <p className={styles.placeholder}>Case studies load here</p>
+          <CaseStudyCards studies={caseStudies} />
         </div>
       </section>
 
