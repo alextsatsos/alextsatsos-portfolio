@@ -4,6 +4,7 @@ import {
   Hanken_Grotesk,
   Architects_Daughter,
 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "../styles/globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -77,6 +78,7 @@ export default function RootLayout({
         <Nav />
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
