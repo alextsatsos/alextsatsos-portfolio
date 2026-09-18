@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getCaseStudies, getCaseStudyBySlug } from '@/lib/notion'
-import PasswordGate from '@/components/PasswordGate'
 import CaseStudyHero from '@/components/case-study/CaseStudyHero'
 import CaseStudyBody from '@/components/case-study/CaseStudyBody'
 import PrevNextNav from '@/components/case-study/PrevNextNav'
@@ -58,19 +57,21 @@ export default async function CaseStudyPage(props: PageProps<'/case-studies/[slu
   return (
     <main>
       <div className={`container ${styles.wrap}`}>
-        <PasswordGate protected={meta.passwordProtected}>
-          <CaseStudyHero meta={meta} />
-          <CaseStudyBody
-            blocks={blocks}
-            caseStudyTitle={meta.title}
-            prototypeFallbackUrl={meta.externalLink}
-            imageType={meta.imageType}
-          />
-          <PrevNextNav
-            prev={prev ? { slug: prev.slug, title: prev.title } : null}
-            next={next ? { slug: next.slug, title: next.title } : null}
-          />
-        </PasswordGate>
+        {/* Access to the three protected case studies is enforced server-side
+            in proxy.ts (Next 16's renamed middleware), so the page renders its
+            content directly — no client-side password check, nothing gated in
+            the browser bundle. */}
+        <CaseStudyHero meta={meta} />
+        <CaseStudyBody
+          blocks={blocks}
+          caseStudyTitle={meta.title}
+          prototypeFallbackUrl={meta.externalLink}
+          imageType={meta.imageType}
+        />
+        <PrevNextNav
+          prev={prev ? { slug: prev.slug, title: prev.title } : null}
+          next={next ? { slug: next.slug, title: next.title } : null}
+        />
       </div>
     </main>
   )
