@@ -62,6 +62,7 @@ function pageToCase(page: PageObjectResponse): CaseStudy {
     cardTag: text('CardTag'),
     eyebrow: text('Eyebrow'),
     tagline: text('Tagline'),
+    cardSummary: text('CardSummary'),
     role: text('Role'),
     timeline: text('Timeline'),
     company: text('Company'),

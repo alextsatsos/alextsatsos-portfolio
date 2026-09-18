@@ -14,6 +14,7 @@ export interface CaseStudy {
   cardTag: string
   eyebrow: string
   tagline: string
+  cardSummary: string
   role: string
   timeline: string
   company: string

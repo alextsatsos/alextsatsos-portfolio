@@ -79,6 +79,18 @@
   color: var(--navy);
 }
 
+/* Lime marker highlight on the one KeyPhrase inside the summary. The 55% band
+   plus box-decoration-break: clone read as a felt-tip stroke and wrap cleanly
+   across line breaks. Navy on lime passes contrast — no pink here. */
+.summaryMark {
+  background: linear-gradient(transparent 55%, var(--lime) 55%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 2px;
+  color: var(--navy);
+  font-weight: 600;
+}
+
 /* Right: tags + arrow */
 .right {
   flex: 0 0 auto;
