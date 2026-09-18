@@ -1,23 +1,7 @@
 import Link from 'next/link'
 import type { CaseStudy } from '@/types/notion'
+import { highlightPhrase } from '@/lib/highlightPhrase'
 import styles from './CaseStudyCards.module.css'
-
-// The card quote is the one piece kept out of Notion — it's marketing copy
-// tuned per study, locked in CLAUDE.md. Everything else on the card (title,
-// client label, CardTag, password flag, order, slug) comes from the record.
-const CARD_QUOTES: Record<string, string> = {
-  'split-tender-refunds':
-    'Three transactions consolidated into one guided flow — with a reusable stepper that other teams adopted.',
-  'logic-builder':
-    'Turned a code-only configuration tool into a point-and-click experience for non-technical users.',
-  'enterprise-delivery-tracker':
-    'Users said "Once an order was on the truck, it essentially disappeared." Now they can track every step.',
-  'install-mods-ux-research':
-    'Solo end-to-end research that changed the design — from script to synthesis.',
-  'admin-area-update':
-    'A neglected admin area, two user groups, two mental models — and two concepts to match.',
-  'qa-test-dashboard': 'Internal tools deserve good design too.',
-}
 
 // Card label under the number. The retail studies carry an anonymized
 // "Enterprise Retail" in Company (NDA); the nCino studies are shown by
@@ -47,7 +31,6 @@ export default function CaseStudyCards({ studies }: { studies: CaseStudy[] }) {
   return (
     <ul className={styles.grid}>
       {studies.map((study) => {
-        const quote = CARD_QUOTES[study.slug] ?? study.tagline
         // Always link to the internal case study page, never the Notion
         // ExternalLink — some studies (e.g. Split Tender) point that at a raw
         // Figma prototype, which would bypass the page's password gate.
@@ -65,7 +48,9 @@ export default function CaseStudyCards({ studies }: { studies: CaseStudy[] }) {
                 )}
               </div>
 
-              <p className={styles.quote}>{quote}</p>
+              <p className={styles.quote}>
+                {highlightPhrase(study.cardSummary, study.keyPhrase, styles.summaryMark)}
+              </p>
 
               <div className={styles.right}>
                 <div className={styles.tags}>
