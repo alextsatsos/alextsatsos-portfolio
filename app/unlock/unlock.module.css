@@ -8,8 +8,6 @@
   justify-content: center;
   padding: var(--container-pad);
   background-color: var(--paper);
-  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
-  background-size: var(--dot-size) var(--dot-size);
 }
 
 .card {
