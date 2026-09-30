@@ -8,10 +8,6 @@
   width: 100%;
   padding: 48px 40px;
   background: linear-gradient(135deg, #133464, #1a4280);
-  background-image:
-    radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px),
-    linear-gradient(135deg, #133464, #1a4280);
-  background-size: 22px 22px, 100% 100%;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 

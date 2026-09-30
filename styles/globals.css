@@ -18,9 +18,6 @@ body {
   background-color: var(--paper);
   color: var(--ink-mid);
   line-height: 1.6;
-  background-image: radial-gradient(circle, var(--dot-color) 1.2px, transparent 1.2px);
-  background-size: var(--dot-size) var(--dot-size);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
