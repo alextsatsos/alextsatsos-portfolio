@@ -1,6 +1,6 @@
 .tab {
   display: inline-block;
-  font-family: var(--font-head);
+  font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 400;
   color: #fff;

@@ -6,7 +6,7 @@
 }
 
 .handNote {
-  font-family: var(--font-head);
+  font-family: var(--font-body);
   font-size: 1rem;
   color: var(--ink-light);
 }

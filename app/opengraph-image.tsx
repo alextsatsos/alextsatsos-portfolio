@@ -23,10 +23,10 @@ const TAGLINE = 'I design the software nobody brags about — but everybody depe
 const FONT_DIR = join(process.cwd(), 'public', 'og-fonts')
 
 export default async function Image() {
-  const [firaCode700, firaCode600, inter500] = await Promise.all([
-    readFile(join(FONT_DIR, 'FiraCode-700.ttf')),
-    readFile(join(FONT_DIR, 'FiraCode-600.ttf')),
-    readFile(join(FONT_DIR, 'Inter-500.ttf')),
+  const [bricolage800, bricolage600, hanken] = await Promise.all([
+    readFile(join(FONT_DIR, 'Bricolage-800.ttf')),
+    readFile(join(FONT_DIR, 'Bricolage-600.ttf')),
+    readFile(join(FONT_DIR, 'Hanken-500.ttf')),
   ])
 
   return new ImageResponse(
@@ -43,7 +43,7 @@ export default async function Image() {
           backgroundImage:
             'radial-gradient(rgba(255,255,255,0.09) 1.5px, transparent 1.5px), linear-gradient(135deg, #133464, #1a4280)',
           backgroundSize: '24px 24px, 100% 100%',
-          fontFamily: 'Inter',
+          fontFamily: 'Hanken',
         }}
       >
         {/* Left: text block */}
@@ -57,7 +57,7 @@ export default async function Image() {
         >
           <div
             style={{
-              fontFamily: 'Fira Code',
+              fontFamily: 'Hanken',
               fontSize: 30,
               color: 'rgba(255,255,255,0.94)',
               marginBottom: 18,
@@ -69,18 +69,16 @@ export default async function Image() {
           <div
             style={{
               display: 'flex',
-              flexWrap: 'wrap',
               alignItems: 'baseline',
-              fontFamily: 'Fira Code',
-              fontWeight: 700,
-              fontSize: 64,
+              fontFamily: 'Bricolage',
+              fontWeight: 800,
+              fontSize: 92,
               lineHeight: 1,
               color: '#ffffff',
               marginBottom: 28,
             }}
           >
-            <span style={{ display: 'flex' }}>Hi! I&apos;m Alex</span>
-            <span style={{ display: 'flex', color: '#FF2687' }}>.</span>
+            Hi! I&apos;m Alex<span style={{ color: '#FF2687' }}>.</span>
           </div>
 
           <div
@@ -89,7 +87,7 @@ export default async function Image() {
               flexWrap: 'wrap',
               columnGap: 11,
               rowGap: 12,
-              fontFamily: 'Fira Code',
+              fontFamily: 'Bricolage',
               fontWeight: 600,
               fontSize: 33,
               lineHeight: 1.32,
@@ -127,7 +125,7 @@ export default async function Image() {
 
           <div
             style={{
-              fontFamily: 'Inter',
+              fontFamily: 'Hanken',
               fontWeight: 500,
               fontSize: 23,
               color: 'rgba(255,255,255,0.6)',
@@ -160,9 +158,9 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        { name: 'Fira Code', data: firaCode700, style: 'normal', weight: 700 },
-        { name: 'Fira Code', data: firaCode600, style: 'normal', weight: 600 },
-        { name: 'Inter', data: inter500, style: 'normal', weight: 500 },
+        { name: 'Bricolage', data: bricolage800, style: 'normal', weight: 800 },
+        { name: 'Bricolage', data: bricolage600, style: 'normal', weight: 600 },
+        { name: 'Hanken', data: hanken, style: 'normal', weight: 500 },
       ],
     }
   )

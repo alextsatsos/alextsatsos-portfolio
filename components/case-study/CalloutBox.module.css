@@ -6,7 +6,7 @@
 }
 
 .label {
-  font-family: var(--font-head);
+  font-family: var(--font-body);
   font-size: 0.75rem;
   color: var(--navy);
   margin-bottom: 6px;

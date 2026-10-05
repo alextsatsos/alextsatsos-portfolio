@@ -27,7 +27,7 @@
 .green { background: #27c93f; }
 
 .label {
-  font-family: var(--font-head);
+  font-family: var(--font-body);
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.55);
   margin-left: 6px;
