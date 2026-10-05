@@ -9,7 +9,7 @@
 }
 
 .label {
-  font-family: var(--font-hand);
+  font-family: var(--font-head);
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.6);
 }
@@ -57,7 +57,7 @@
 }
 
 .note {
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-style: italic;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.65);

@@ -1,6 +1,6 @@
 .quote {
   border-left: 4px solid var(--pink);
-  background: rgba(255, 38, 135, 0.04);
+  background: rgba(204, 31, 99, 0.04);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   padding: 20px 24px;
   margin: 32px 0;
@@ -16,7 +16,7 @@
 
 .attribution {
   display: block;
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--ink-light);
   margin-top: 12px;

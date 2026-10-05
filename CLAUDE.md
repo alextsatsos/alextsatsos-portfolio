@@ -31,8 +31,8 @@ Core positioning: "I design the software nobody brags about — but everybody de
 
 Active palette (navy + pink + lime only):
 
-- **Navy `#133464`** — dominant everywhere
-- **Pink `#FF2687`** — large text/fills/lines only. WCAG rule enforced in code: only used at 18px+ regular or 14px+ bold, or as fills/lines — never small body text or subheads under that size. If a design calls for pink at a smaller size, swap to navy instead.
+- **Navy `#15273F`** — dominant everywhere
+- **Pink `#CC1F63`** — large text/fills/lines only. WCAG rule enforced in code: only used at 18px+ regular or 14px+ bold, or as fills/lines — never small body text or subheads under that size. If a design calls for pink at a smaller size, swap to navy instead.
 - **Lime `#D8FF76`** — key-phrase accent. Angled SVG underline on navy/dark backgrounds; solid highlight fill behind the text on light/cream backgrounds (the underline reads too faint on light, per the light-background rule)
 - Cyan, groove (gold), lullaby (lavender) — REMOVED from all pages
 
@@ -53,18 +53,18 @@ Used on key phrases only, never whole sentences.
 - Form inputs (e.g. password gate) need a real `<label>` (visually hidden is fine) — placeholder text alone is not a substitute
 - Embedded iframes (e.g. Figma prototypes) need a descriptive `title` attribute
 - Decorative icon elements (e.g. SkillCheck's check box) should be `aria-hidden="true"`
-- Password gate's "View Case Study" submit button (white text on pink `#FF2687` fill) is sized at 1.2rem (19.2px) bold specifically to clear the WCAG large-bold text threshold (18.66px, where the required ratio drops from 4.5:1 to 3:1) — don't shrink this button below that size without also darkening the fill
+- Password gate's "View Case Study" submit button (white text on pink `#CC1F63` fill) is sized at 1.2rem (19.2px) bold specifically to clear the WCAG large-bold text threshold (18.66px, where the required ratio drops from 4.5:1 to 3:1) — don't shrink this button below that size without also darkening the fill
 - Password gate's heading renders as `<h1>` while locked (not `<h2>`) — this is intentional and safe, since `PasswordGate` fully replaces its children (including the real page's `<h1>`) while locked, so the two never coexist on screen at once
 
 **SkillCheck component**: 18px navy-outlined box (1.5px solid, 4px radius), inline SVG pink check path `d="M5 12l4 4 10-11"`, navy Hanken Grotesk 500 label, 9px gap. Box is `aria-hidden`. NOT a checkbox input. Used in the case study hero info bar's "Skills applied" row (wraps horizontally) — no longer lives in a sidebar card.
 
-**Tape-strip card style** (still used by `AboutSection` and `WhiteboardPhoto`, no longer by case study sidebars since those are gone): white bg, NO border, `box-shadow: 0 4px 16px rgba(19,52,100,0.08), 0 1px 4px rgba(19,52,100,0.05)`. Tape strip: `#E8DFC8`, position absolute, top -9px, centered, 44px x 16px.
+**Tape-strip card style** (still used by `AboutSection` and `WhiteboardPhoto`, no longer by case study sidebars since those are gone): white bg, NO border, `box-shadow: 0 4px 16px rgba(21,39,63,0.08), 0 1px 4px rgba(21,39,63,0.05)`. Tape strip: `#E8DFC8`, position absolute, top -9px, centered, 44px x 16px.
 
 **Pull quote card (in-body, case studies)** — LOCKED, replaces the old inline navy treatment: cream/paper bg `#FAFAF7`, slight rotation (tape-strip card look), `#E8DFC8` tape strip anchored on top. Quote text in navy with both `"` marks pink and inline; lime **highlight fill** (not underline) behind the key phrase, since the card sits on a light background. Attribution is a witty one-line credit in Architects Daughter (full navy per WCAG), not a flat "Users said." Navy is reserved for structural elements only (hero, reflection, footer) — do not use a navy pull-quote block.
 
 **Callout component** — bold navy heading inside a tinted/bordered box, matching Split Tender's "the core problem" reference. Re-verify it renders correctly (heading position intact) after ANY layout change that touches it — a prior stacking change silently broke the heading positioning.
 
-**Case study cards (homepage)**: Option B style — pink left border (4px), white bg, shadow, border-radius 20px. Three columns: number+client left / quote center / tags+arrow right. Password protected tag: background `rgba(255,38,135,0.08)`, color `var(--pink)`
+**Case study cards (homepage)**: Option B style — pink left border (4px), white bg, shadow, border-radius 20px. Three columns: number+client left / quote center / tags+arrow right. Password protected tag: background `rgba(204,31,99,0.08)`, color `var(--pink)`
 
 **Case study images (photos, annotated screenshots, GIFs)**: No card wrapper — image renders directly on the dot-grid page background, no box-shadow/padding container. Tape strip (`#E8DFC8`) stays as a decorative element anchored to the image itself. Caption sits below with no extra card padding to account for. Exception: the whiteboard sketch photo keeps an intentional 620px width cap since it's a discrete image, not full-width running content.
 
@@ -80,7 +80,7 @@ Used on key phrases only, never whole sentences.
 ### Hero card
 
 - Full width — NO image slot (text only, Option A decision)
-- Navy gradient (135deg, `#133464` → `#1a4280`), dot-grid overlay
+- Navy gradient (135deg, `#15273F` → `#1a4280`), dot-grid overlay
 - `border-radius: 20px 20px 0 0` (rounded top, square bottom)
 - 3px pink seam between hero and info bar
 - Info bar: white bg, `border-radius: 0 0 20px 20px`. Two rows: Role/Timeline (or Company)/Platform/Outcome, then a hairline-divided "Skills applied" row with wrapping `SkillCheck` items (added Session 4.5, replaces the old sidebar Skills card)

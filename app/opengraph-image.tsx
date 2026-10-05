@@ -23,11 +23,10 @@ const TAGLINE = 'I design the software nobody brags about — but everybody depe
 const FONT_DIR = join(process.cwd(), 'public', 'og-fonts')
 
 export default async function Image() {
-  const [bricolage800, bricolage600, architects, hanken] = await Promise.all([
-    readFile(join(FONT_DIR, 'Bricolage-800.ttf')),
-    readFile(join(FONT_DIR, 'Bricolage-600.ttf')),
-    readFile(join(FONT_DIR, 'ArchitectsDaughter-400.ttf')),
-    readFile(join(FONT_DIR, 'Hanken-500.ttf')),
+  const [firaCode700, firaCode600, inter500] = await Promise.all([
+    readFile(join(FONT_DIR, 'FiraCode-700.ttf')),
+    readFile(join(FONT_DIR, 'FiraCode-600.ttf')),
+    readFile(join(FONT_DIR, 'Inter-500.ttf')),
   ])
 
   return new ImageResponse(
@@ -40,11 +39,11 @@ export default async function Image() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '72px 76px',
-          backgroundColor: '#133464',
+          backgroundColor: '#15273F',
           backgroundImage:
-            'radial-gradient(rgba(255,255,255,0.09) 1.5px, transparent 1.5px), linear-gradient(135deg, #133464, #1a4280)',
+            'radial-gradient(rgba(255,255,255,0.09) 1.5px, transparent 1.5px), linear-gradient(135deg, #15273F, #1a4280)',
           backgroundSize: '24px 24px, 100% 100%',
-          fontFamily: 'Hanken',
+          fontFamily: 'Inter',
         }}
       >
         {/* Left: text block */}
@@ -58,7 +57,7 @@ export default async function Image() {
         >
           <div
             style={{
-              fontFamily: 'Architects',
+              fontFamily: 'Fira Code',
               fontSize: 30,
               color: 'rgba(255,255,255,0.94)',
               marginBottom: 18,
@@ -70,16 +69,18 @@ export default async function Image() {
           <div
             style={{
               display: 'flex',
+              flexWrap: 'wrap',
               alignItems: 'baseline',
-              fontFamily: 'Bricolage',
-              fontWeight: 800,
-              fontSize: 92,
+              fontFamily: 'Fira Code',
+              fontWeight: 700,
+              fontSize: 64,
               lineHeight: 1,
               color: '#ffffff',
               marginBottom: 28,
             }}
           >
-            Hi! I&apos;m Alex<span style={{ color: '#FF2687' }}>.</span>
+            <span style={{ display: 'flex' }}>Hi! I&apos;m Alex</span>
+            <span style={{ display: 'flex', color: '#CC1F63' }}>.</span>
           </div>
 
           <div
@@ -88,7 +89,7 @@ export default async function Image() {
               flexWrap: 'wrap',
               columnGap: 11,
               rowGap: 12,
-              fontFamily: 'Bricolage',
+              fontFamily: 'Fira Code',
               fontWeight: 600,
               fontSize: 33,
               lineHeight: 1.32,
@@ -126,7 +127,7 @@ export default async function Image() {
 
           <div
             style={{
-              fontFamily: 'Hanken',
+              fontFamily: 'Inter',
               fontWeight: 500,
               fontSize: 23,
               color: 'rgba(255,255,255,0.6)',
@@ -159,10 +160,9 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        { name: 'Bricolage', data: bricolage800, style: 'normal', weight: 800 },
-        { name: 'Bricolage', data: bricolage600, style: 'normal', weight: 600 },
-        { name: 'Architects', data: architects, style: 'normal', weight: 400 },
-        { name: 'Hanken', data: hanken, style: 'normal', weight: 500 },
+        { name: 'Fira Code', data: firaCode700, style: 'normal', weight: 700 },
+        { name: 'Fira Code', data: firaCode600, style: 'normal', weight: 600 },
+        { name: 'Inter', data: inter500, style: 'normal', weight: 500 },
       ],
     }
   )

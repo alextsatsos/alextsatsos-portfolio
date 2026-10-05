@@ -1,6 +1,6 @@
 :root {
-  --navy:             #133464;
-  --pink:             #FF2687;
+  --navy:             #15273F;
+  --pink:             #CC1F63;
   --cyan:             #00FBEA;
   --lime:             #D8FF76;
   --groove:           #F5BE41;
@@ -10,9 +10,8 @@
   --ink-light:        #6B6B72;
   --ink-mid:          #3A3A45;
 
-  --font-head:        'Bricolage Grotesque', sans-serif;
-  --font-body:        'Hanken Grotesk', sans-serif;
-  --font-hand:        'Architects Daughter', cursive;
+  --font-head:        'Fira Code', monospace;
+  --font-body:        'Inter', sans-serif;
 
   --radius-sm:        6px;
   --radius-md:        12px;

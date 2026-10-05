@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Bricolage_Grotesque,
-  Hanken_Grotesk,
-  Architects_Daughter,
-} from "next/font/google";
+import { Fira_Code, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "../styles/globals.css";
 import Nav from "@/components/Nav";
@@ -12,24 +8,17 @@ import Footer from "@/components/Footer";
 // Downloaded at build time and served locally.
 // The actual family names are defined in styles/fonts.css via @font-face,
 // which is what tokens.css --font-* variables reference.
-const bricolage = Bricolage_Grotesque({
+const firaCode = Fira_Code({
   subsets: ["latin"],
-  axes: ["opsz"],
-  variable: "--nf-bricolage",
+  weight: ["400", "500", "600", "700"],
+  variable: "--nf-fira-code",
   display: "swap",
 });
 
-const hanken = Hanken_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-  variable: "--nf-hanken",
-  display: "swap",
-});
-
-const architects = Architects_Daughter({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--nf-architects",
+  variable: "--nf-inter",
   display: "swap",
 });
 
@@ -70,10 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${bricolage.variable} ${hanken.variable} ${architects.variable}`}
-    >
+    <html lang="en" className={`${firaCode.variable} ${inter.variable}`}>
       <body>
         <Nav />
         {children}

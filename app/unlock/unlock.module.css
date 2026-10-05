@@ -16,8 +16,8 @@
   background: #fff;
   border-radius: 20px;
   box-shadow:
-    0 4px 24px rgba(19, 52, 100, 0.1),
-    0 1px 4px rgba(19, 52, 100, 0.06);
+    0 4px 24px rgba(21, 39, 63, 0.1),
+    0 1px 4px rgba(21, 39, 63, 0.06);
   padding: 40px;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(19, 52, 100, 0.06);
+  background: rgba(21, 39, 63, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +87,7 @@
 
 .input:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(19, 52, 100, 0.15);
+  box-shadow: 0 0 0 3px rgba(21, 39, 63, 0.15);
 }
 
 .inputError {
@@ -95,7 +95,7 @@
 }
 
 .inputError:focus {
-  box-shadow: 0 0 0 3px rgba(255, 38, 135, 0.15);
+  box-shadow: 0 0 0 3px rgba(204, 31, 99, 0.15);
 }
 
 .error {
@@ -134,5 +134,5 @@
   color: var(--navy);
   font-weight: 600;
   text-decoration: none;
-  border-bottom: 1px solid rgba(19, 52, 100, 0.2);
+  border-bottom: 1px solid rgba(21, 39, 63, 0.2);
 }

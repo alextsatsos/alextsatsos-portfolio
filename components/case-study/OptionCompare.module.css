@@ -6,8 +6,8 @@
 
 .card {
   position: relative;
-  border-left: 4px dashed rgba(19, 52, 100, 0.35);
-  background: rgba(19, 52, 100, 0.03);
+  border-left: 4px dashed rgba(21, 39, 63, 0.35);
+  background: rgba(21, 39, 63, 0.03);
   border-radius: var(--radius-md);
   padding: 20px 22px;
   display: flex;
@@ -17,12 +17,12 @@
 
 .chosen {
   border-left: 4px solid var(--pink);
-  background: rgba(255, 38, 135, 0.04);
+  background: rgba(204, 31, 99, 0.04);
 }
 
 .badge {
   align-self: flex-start;
-  font-family: var(--font-hand);
+  font-family: var(--font-head);
   font-size: 0.75rem;
   color: var(--navy);
   background: var(--lime);
