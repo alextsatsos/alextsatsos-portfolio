@@ -95,7 +95,7 @@
 .card {
   position: relative;
   background: #fff;
-  box-shadow: 0 4px 16px rgba(21, 39, 63, 0.08), 0 1px 4px rgba(21, 39, 63, 0.05);
+  box-shadow: 0 4px 16px rgba(19, 52, 100, 0.08), 0 1px 4px rgba(19, 52, 100, 0.05);
   border-radius: var(--radius-md);
   padding: 20px 20px 16px;
 }

@@ -5,7 +5,7 @@
   background: rgba(247, 246, 242, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1.5px solid rgba(21, 39, 63, 0.1);
+  border-bottom: 1.5px solid rgba(19, 52, 100, 0.1);
 }
 
 .inner {

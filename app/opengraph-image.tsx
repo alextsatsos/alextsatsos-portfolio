@@ -39,9 +39,9 @@ export default async function Image() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '72px 76px',
-          backgroundColor: '#15273F',
+          backgroundColor: '#133464',
           backgroundImage:
-            'radial-gradient(rgba(255,255,255,0.09) 1.5px, transparent 1.5px), linear-gradient(135deg, #15273F, #1a4280)',
+            'radial-gradient(rgba(255,255,255,0.09) 1.5px, transparent 1.5px), linear-gradient(135deg, #133464, #1a4280)',
           backgroundSize: '24px 24px, 100% 100%',
           fontFamily: 'Inter',
         }}
@@ -80,7 +80,7 @@ export default async function Image() {
             }}
           >
             <span style={{ display: 'flex' }}>Hi! I&apos;m Alex</span>
-            <span style={{ display: 'flex', color: '#CC1F63' }}>.</span>
+            <span style={{ display: 'flex', color: '#FF2687' }}>.</span>
           </div>
 
           <div
