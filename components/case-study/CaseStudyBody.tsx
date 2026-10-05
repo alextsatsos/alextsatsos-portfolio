@@ -258,6 +258,23 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
         continue
       }
 
+      // Some callouts (e.g. "the core problem and the redesign's impact")
+      // author their body as child blocks nested under the callout in Notion,
+      // rather than packing label+body into one rich_text array. When
+      // children are present, the callout's own rich_text is the heading in
+      // full, and the body renders from the children instead of a label split.
+      if (block.children && block.children.length > 0) {
+        nodes.push(
+          <CalloutBox key={block.id} label={blockRichText(block).map((r) => r.plain_text).join('')}>
+            {block.children.map((child) => (
+              <p key={child.id}>{renderRichText(blockRichText(child))}</p>
+            ))}
+          </CalloutBox>
+        )
+        i++
+        continue
+      }
+
       const { label, body } = splitCalloutLabel(blockRichText(block))
       nodes.push(
         <CalloutBox key={block.id} label={label.length > 0 ? label.map((r) => r.plain_text).join('') : undefined}>
