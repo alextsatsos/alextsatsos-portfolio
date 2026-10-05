@@ -36,7 +36,7 @@
 }
 
 .attribution {
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-size: 1rem;
   color: var(--navy);
   text-align: right;

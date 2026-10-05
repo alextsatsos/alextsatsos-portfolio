@@ -26,7 +26,7 @@
 }
 
 .direction {
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-size: 0.75rem;
   color: var(--ink-light);
 }

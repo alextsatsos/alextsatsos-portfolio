@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Bricolage_Grotesque,
-  Hanken_Grotesk,
-  Architects_Daughter,
-} from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "../styles/globals.css";
 import Nav from "@/components/Nav";
@@ -23,13 +19,6 @@ const hanken = Hanken_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   variable: "--nf-hanken",
-  display: "swap",
-});
-
-const architects = Architects_Daughter({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--nf-architects",
   display: "swap",
 });
 
@@ -70,10 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${bricolage.variable} ${hanken.variable} ${architects.variable}`}
-    >
+    <html lang="en" className={`${bricolage.variable} ${hanken.variable}`}>
       <body>
         <Nav />
         {children}

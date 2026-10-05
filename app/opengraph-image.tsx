@@ -23,10 +23,9 @@ const TAGLINE = 'I design the software nobody brags about — but everybody depe
 const FONT_DIR = join(process.cwd(), 'public', 'og-fonts')
 
 export default async function Image() {
-  const [bricolage800, bricolage600, architects, hanken] = await Promise.all([
+  const [bricolage800, bricolage600, hanken] = await Promise.all([
     readFile(join(FONT_DIR, 'Bricolage-800.ttf')),
     readFile(join(FONT_DIR, 'Bricolage-600.ttf')),
-    readFile(join(FONT_DIR, 'ArchitectsDaughter-400.ttf')),
     readFile(join(FONT_DIR, 'Hanken-500.ttf')),
   ])
 
@@ -58,7 +57,7 @@ export default async function Image() {
         >
           <div
             style={{
-              fontFamily: 'Architects',
+              fontFamily: 'Hanken',
               fontSize: 30,
               color: 'rgba(255,255,255,0.94)',
               marginBottom: 18,
@@ -161,7 +160,6 @@ export default async function Image() {
       fonts: [
         { name: 'Bricolage', data: bricolage800, style: 'normal', weight: 800 },
         { name: 'Bricolage', data: bricolage600, style: 'normal', weight: 600 },
-        { name: 'Architects', data: architects, style: 'normal', weight: 400 },
         { name: 'Hanken', data: hanken, style: 'normal', weight: 500 },
       ],
     }

@@ -44,7 +44,7 @@
 }
 
 .handNote {
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-size: 14px;
   color: var(--off-white);
   margin-top: 4px;

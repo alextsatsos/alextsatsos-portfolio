@@ -16,7 +16,7 @@
 
 .attribution {
   display: block;
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--ink-light);
   margin-top: 12px;

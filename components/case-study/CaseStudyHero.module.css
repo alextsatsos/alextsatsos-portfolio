@@ -12,7 +12,7 @@
 }
 
 .eyebrow {
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.55);
   margin-bottom: 12px;
@@ -67,7 +67,7 @@
 }
 
 .infoLabel {
-  font-family: var(--font-hand);
+  font-family: var(--font-body);
   font-size: 0.7rem;
   color: rgba(19, 52, 100, 0.7);
 }
