@@ -18,3 +18,7 @@
   color: var(--ink-mid);
   line-height: 1.6;
 }
+
+.body p + p {
+  margin-top: 16px;
+}

@@ -1,6 +1,6 @@
 import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 
-export type NotionBlock = BlockObjectResponse
+export type NotionBlock = BlockObjectResponse & { children?: NotionBlock[] }
 
 export type ImageType = 'annotated' | 'mockup' | 'screenshot' | 'gif' | ''
 
