@@ -1,10 +1,16 @@
+import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 import LimeMark from './LimeMark'
 import styles from './CaseStudyPullQuote.module.css'
 
 interface Props {
-  text: string
+  text?: string
   keyPhrase?: string | null
   attribution?: string | null
+  // Authored rich text for a quote block encountered inline in body copy
+  // (not a dedicated "Pull Quote" section). Bold runs render as a pink stat
+  // emphasis, the underline marker still maps to the lime highlight fill —
+  // takes precedence over text/keyPhrase when provided.
+  richText?: RichTextItemResponse[]
 }
 
 // The card sits on a light (cream) background, so the emphasized phrase gets
@@ -22,13 +28,22 @@ function withHighlight(text: string, phrase?: string | null) {
   )
 }
 
-export default function CaseStudyPullQuote({ text, keyPhrase, attribution }: Props) {
+function renderRich(richText: RichTextItemResponse[]) {
+  return richText.map((segment, i) => {
+    const ann = segment.annotations as { bold?: boolean; underline?: boolean }
+    if (ann.underline) return <LimeMark key={i}>{segment.plain_text}</LimeMark>
+    if (ann.bold) return <span key={i} className={styles.stat}>{segment.plain_text}</span>
+    return <span key={i}>{segment.plain_text}</span>
+  })
+}
+
+export default function CaseStudyPullQuote({ text, keyPhrase, attribution, richText }: Props) {
   return (
     <figure className={styles.quote}>
       <span className={styles.tape} aria-hidden="true" />
       <blockquote className={styles.text}>
         <span className={styles.mark}>&ldquo;</span>
-        {withHighlight(text, keyPhrase)}
+        {richText ? renderRich(richText) : withHighlight(text ?? '', keyPhrase)}
         <span className={styles.mark}>&rdquo;</span>
       </blockquote>
       {attribution && <figcaption className={styles.attribution}>{attribution}</figcaption>}

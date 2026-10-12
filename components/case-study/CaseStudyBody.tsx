@@ -12,6 +12,9 @@ import FramedImage from './FramedImage'
 import BrowserFrame from './BrowserFrame'
 import DeviceScreens from './DeviceScreens'
 import PrototypePair from './PrototypePair'
+import NumberedCards from './NumberedCards'
+import PersonaLineup from './PersonaLineup'
+import Aside from './Aside'
 import { CaseStudyImage, ScreenPairGrid } from './CaseStudyImage'
 import styles from './CaseStudyBody.module.css'
 
@@ -74,6 +77,17 @@ function splitCalloutLabel(
   }
 }
 
+function calloutIcon(block: NotionBlock): { type: string; value?: string } | null {
+  const data = (block as Record<string, unknown>)['callout'] as
+    | { icon?: { type: string; emoji?: string; external?: { url: string } } }
+    | undefined
+  const icon = data?.icon
+  if (!icon) return null
+  if (icon.type === 'emoji') return { type: 'emoji', value: icon.emoji }
+  if (icon.type === 'external') return { type: 'external', value: icon.external?.url }
+  return { type: icon.type }
+}
+
 function embedUrl(block: NotionBlock): string | null {
   const data = (block as Record<string, unknown>)['embed'] as { url?: string } | undefined
   return data?.url ?? null
@@ -103,6 +117,28 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
         items.push(blocks[i])
         i++
       }
+
+      // A numbered list where every item leads with a bold "Label:" is a set
+      // of distinct categories (e.g. the WeGo onboarding question split) —
+      // these render as big-numeral cards rather than a plain ordered list.
+      if (block.type === 'numbered_list_item') {
+        const split = items.map((item) => splitCalloutLabel(blockRichText(item)))
+        if (split.every((s) => s.label.length > 0)) {
+          nodes.push(
+            <NumberedCards
+              key={`numcards-${nodes.length}`}
+              cards={split.map((s, idx) => ({
+                id: items[idx].id,
+                number: idx + 1,
+                title: s.label.map((r) => r.plain_text).join(''),
+                body: renderRichText(s.body),
+              }))}
+            />
+          )
+          continue
+        }
+      }
+
       const Tag = block.type === 'bulleted_list_item' ? 'ul' : 'ol'
       nodes.push(
         <Tag key={`list-${nodes.length}`} className={styles.list}>
@@ -116,6 +152,36 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
 
     if (block.type === 'image') {
       const firstCaption = imageCaption(block)
+
+      // "persona-lead:"/"persona:" prefixed images group into a lineup — one
+      // emphasized lead persona plus the rest shown smaller. Fields after the
+      // prefix are "|"-separated: name, then (lead only) meta and badge text.
+      if (firstCaption.startsWith('persona-lead:') || firstCaption.startsWith('persona:')) {
+        const personas: { src: string; name: string; meta?: string; badge?: string }[] = []
+        let leadIndex = -1
+        while (
+          i < blocks.length &&
+          blocks[i].type === 'image' &&
+          (imageCaption(blocks[i]).startsWith('persona-lead:') || imageCaption(blocks[i]).startsWith('persona:'))
+        ) {
+          const cap = imageCaption(blocks[i])
+          const isLead = cap.startsWith('persona-lead:')
+          const rest = cap.slice(isLead ? 'persona-lead:'.length : 'persona:'.length)
+          const [name, meta, badge] = rest.split('|').map((s) => s.trim())
+          const src = imageUrl(blocks[i])
+          if (src && name) {
+            if (isLead) leadIndex = personas.length
+            personas.push({ src, name, meta: meta || undefined, badge: badge || undefined })
+          }
+          i++
+        }
+        if (leadIndex >= 0) {
+          const lead = personas[leadIndex]
+          const others = personas.filter((_, idx) => idx !== leadIndex)
+          nodes.push(<PersonaLineup key={`personas-${nodes.length}`} lead={lead} others={others} />)
+        }
+        continue
+      }
 
       // "desktop:"/"mobile:" prefixed images group into a natural-aspect device
       // grid (final UI screens). Consecutive same-prefix images collect into one
@@ -160,6 +226,23 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
               {/* eslint-disable-next-line @next/next/no-img-element -- natural aspect, unknown dims */}
               <img src={src} alt={caption || 'Case study screen'} loading="lazy" decoding="async" className={styles.shotImg} />
               {caption && <figcaption className={styles.shotCaption}>{caption}</figcaption>}
+            </figure>
+          )
+        i++
+        continue
+      }
+
+      // "photo:" — a real (non-UI) photograph, capped smaller and centered so
+      // it reads as a supporting photo rather than a full-bleed banner.
+      if (firstCaption.startsWith('photo:')) {
+        const src = imageUrl(block)
+        const caption = firstCaption.slice('photo:'.length).trim()
+        if (src)
+          nodes.push(
+            <figure key={block.id} className={styles.photo}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- natural aspect, unknown dims */}
+              <img src={src} alt={caption || 'Case study photo'} loading="lazy" decoding="async" className={styles.photoImg} />
+              {caption && <figcaption className={styles.photoCaption}>{caption}</figcaption>}
             </figure>
           )
         i++
@@ -236,6 +319,21 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
     }
 
     if (block.type === 'callout') {
+      // A pushpin-icon callout is a lime-ruled aside (a tangential note, e.g.
+      // the WeGo case study's "About the Clappers Cup") rather than the
+      // pink-bordered CalloutBox used for the ✦ insight callouts.
+      const icon = calloutIcon(block)
+      if (icon?.type === 'emoji' && icon.value === '📍') {
+        const { label, body } = splitCalloutLabel(blockRichText(block))
+        nodes.push(
+          <Aside key={block.id} label={label.length > 0 ? label.map((r) => r.plain_text).join('') : undefined}>
+            {renderRichText(body)}
+          </Aside>
+        )
+        i++
+        continue
+      }
+
       // Two callouts back-to-back render side by side. If both labels start
       // with "Option" it's an ideation comparison — the second is chosen.
       // Otherwise (e.g. two parallel definitions) neither gets a badge.
@@ -296,11 +394,10 @@ function renderBlocks(blocks: NotionBlock[], imageType?: ImageType, caseStudyTit
     }
 
     if (block.type === 'quote') {
-      nodes.push(
-        <blockquote key={block.id} className={styles.quote}>
-          {renderRichText(blockRichText(block))}
-        </blockquote>
-      )
+      // A quote block authored inline (not inside its own "## Pull Quote"
+      // section) still gets the cream paper-card treatment — bold runs read
+      // as the pink stat emphasis, the lime underline marker still applies.
+      nodes.push(<CaseStudyPullQuote key={block.id} richText={blockRichText(block)} />)
       i++
       continue
     }

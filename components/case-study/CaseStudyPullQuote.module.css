@@ -35,6 +35,11 @@
   font-weight: 800;
 }
 
+.stat {
+  color: var(--pink);
+  font-weight: 800;
+}
+
 .attribution {
   font-family: var(--font-body);
   font-size: 1rem;

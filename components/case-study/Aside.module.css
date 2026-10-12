@@ -1,0 +1,23 @@
+.aside {
+  border-left: 3px solid var(--lime);
+  padding: 2px 0 2px 18px;
+  margin: 4px 0;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 5px;
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-mid);
+}
